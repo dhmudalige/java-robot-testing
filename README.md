@@ -1,18 +1,12 @@
-[![Java CI with Maven](https://github.com/Pera-Swarm/java-robot/actions/workflows/java-ci.yml/badge.svg)](https://github.com/Pera-Swarm/java-robot/actions/workflows/java-ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) [![Java CI with Maven](https://github.com/Pera-Swarm/java-robot/actions/workflows/java-ci.yml/badge.svg)](https://github.com/Pera-Swarm/java-robot/actions/workflows/java-ci.yml)
 
 # Java Robot 
 
-This is a boilerplate template for java virtual robotst, *Pera-Swarm*
-
-More details will be updated soon.
-
----
+This is a boilerplate template for java virtual robots, under *Pera-Swarm*
 
 ## Local Environment Setup
 
-If you need to run this repository on your local environment,
-please create a file named *'mqtt.properties'* in path, *'./src/resources/config/'*
-as follows and provide your MQTT broker's configurations.
+If you need to run this repository on your local environment, please create a file named *'mqtt.properties'* in path, *'./src/resources/config/'* as follows and provide your MQTT broker's configurations.
 
 You can select any channel, as same as your simulation server runs on.
 
@@ -40,3 +34,21 @@ channel="v1"
 ```bash 
 mvn -s ./settings.xml -B install --file pom.xml 
 ```
+
+## Run with commandline 
+
+- Compile the packages and assembly with all the dependencies, using `mvn compile assembly:single`
+
+```bash 
+mvn clean compile assembly:single -s settings.xml 
+```
+
+- Run the code implementation using `java -jar [jar_file_path] `
+
+```bash 
+java -jar target/java-robot-node-1.0-SNAPSHOT-jar-with-dependencies.jar 
+```
+
+## Detailed Guide
+
+- [pera-swarm.ce.pdn.ac.lk/docs/robots/virtual/v1/java/](https://pera-swarm.ce.pdn.ac.lk/docs/robots/virtual/v1/java/)
