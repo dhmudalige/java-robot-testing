@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "java-robot-node"
+        },
+        {
+            "type": "java",
             "name": "Run the Swarm",
             "request": "launch",
             "mainClass": "App",

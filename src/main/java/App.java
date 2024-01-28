@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import Robots.samples.MappingRobot;
+import Robots.samples.MappingRobotRandomMoving;
 import Robots.samples.MazeFollowingRobot;
 import Robots.samples.ObstacleAvoidRobot;
 import Robots.samples.SampleRobot;
@@ -34,10 +36,23 @@ public class App {
             MQTTSettings.channel = props.getProperty("channel", "v1");
             reader.close();
 
-            // Start a single robot
-            Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
-            new Thread(robot).start();
+            // // Start a single robot
+            // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
+            // new Thread(robot).start();
 
+            // // Start a single robot
+            // Robot robot = new MazeFollowingRobot(10, -81, -81, 90);
+            // new Thread(robot).start();
+
+
+            // Start a 2 robots
+            Robot robot1 = new MappingRobotRandomMoving(1, -81, -81, 90);
+            new Thread(robot1).start();
+
+            Robot robot2 = new MappingRobotRandomMoving(2, 81, 81, 90);
+            new Thread(robot2).start();   
+            
+            
             // // Start a swarm of robots
             // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
