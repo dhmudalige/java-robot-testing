@@ -148,66 +148,6 @@ public class MappingRobotRandomMoving extends VirtualRobot {
                     robotY--;
                     break;
             }     
-                   
-            // // Determine the movement based on the number of right and left turns
-            // if (rightTurns % 4 == 0) { // If the number of right turns modulo 4 is 0 (facing north)
-            //     if (leftTurns % 4 == 0) { // If the number of left turns modulo 4 is 0
-            //         // Move north
-            //         robotX++;
-            //     } else if (leftTurns % 4 == 1) { // If the number of left turns modulo 4 is 1
-            //         // Move west
-            //         robotY--;
-            //     } else if (leftTurns % 4 == 2) { // If the number of left turns modulo 4 is 2
-            //         // Move south
-            //         robotX--;
-            //     } else if (leftTurns % 4 == 3) { // If the number of left turns modulo 4 is 3
-            //         // Move east
-            //         robotY++;
-            //     }
-            // } else if (rightTurns % 4 == 1) { // If the number of right turns modulo 4 is 1 (facing east)
-            //     // Similar logic follows for other directions
-            //     if (leftTurns % 4 == 0) {
-            //         // Move east
-            //         robotY++;
-            //     } else if (leftTurns % 4 == 1) {
-            //         // Move north
-            //         robotX++;
-            //     } else if (leftTurns % 4 == 2) {
-            //         // Move west
-            //         robotY--;
-            //     } else if (leftTurns % 4 == 3) {
-            //         // Move south
-            //         robotX--;
-            //     }
-            // } else if (rightTurns % 4 == 2) { // If the number of right turns modulo 4 is 2 (facing south)
-            //     if (leftTurns % 4 == 0) {
-            //         // Move south
-            //         robotX--;
-            //     } else if (leftTurns % 4 == 1) {
-            //         // Move east
-            //         robotY++;
-            //     } else if (leftTurns % 4 == 2) {
-            //         // Move north
-            //         robotX++;
-            //     } else if (leftTurns % 4 == 3) {
-            //         // Move west
-            //         robotY--;
-            //     }
-            // } else if (rightTurns % 4 == 3) { // If the number of right turns modulo 4 is 3 (facing west)
-            //     if (leftTurns % 4 == 0) {
-            //         // Move west
-            //         robotY--;
-            //     } else if (leftTurns % 4 == 1) {
-            //         // Move south
-            //         robotX--;
-            //     } else if (leftTurns % 4 == 2) {
-            //         // Move east
-            //         robotY++;
-            //     } else if (leftTurns % 4 == 3) {
-            //         // Move north
-            //         robotX++;
-            //     }
-            // }
 
             // Change entries with value 3 to 1
             for (int i = 0; i < occupancyGrid.length; i++) {
