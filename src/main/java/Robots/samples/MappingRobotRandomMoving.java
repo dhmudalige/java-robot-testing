@@ -1,6 +1,8 @@
 package Robots.samples;
 
 import swarm.robot.VirtualRobot;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MappingRobotRandomMoving extends VirtualRobot {
     
@@ -85,19 +87,28 @@ public class MappingRobotRandomMoving extends VirtualRobot {
             // Robot rotating way :- if distance from (any side +6) > GRID_SPACE then robot
             // will rotate that side.
 
-            if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {
+            ArrayList<Integer> intList = new ArrayList<>();
+
+            if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {intList.add(1);}
+            if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {intList.add(2);}
+            if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {intList.add(3);}
+
+            Random rand = new Random();
+            int randomIndex = rand.nextInt(intList.size()); // Generate a random index
+            int randomElement = intList.get(randomIndex); // Get the element at the random index    
+
+            if (randomElement==1) {
                 // Right
                 motion.rotateDegree(defaultRotateSpeed, 90);
                 rightTurns++;
 
-            } else if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {
+            } else if (randomElement==2) {
                 // Front
 
-            } else if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {
+            } else if (randomElement==3) {
                 // Turn Left
                 motion.rotateDegree(defaultRotateSpeed, -90);
                 leftTurns++;
-
             } else {
                 // If robot can't go left,right and front then robot will rotate to back.
                 motion.rotateDegree(defaultRotateSpeed, 180);
