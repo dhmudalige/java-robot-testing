@@ -64,7 +64,7 @@ public class MappingRobotRandomMoving extends VirtualRobot {
         }
 
         // Mark the starting cell as visited
-        occupancyGrid[numRows-1-(int)robotX][(int)robotY] = 1;
+        occupancyGrid[numRows-1-(int)robotX][(int)robotY] = 3;
 
         // Print the array
         for (int row = 0; row < numRows; row++) {
@@ -89,8 +89,15 @@ public class MappingRobotRandomMoving extends VirtualRobot {
 
             ArrayList<Integer> intList = new ArrayList<>();
 
-            if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {intList.add(1);}
+            if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {
+                intList.add(1);
+            } 
+            // else {
+            //     occupancyGrid[numRows-1-(int)robotX][(int)robotY] = 3;
+            // }
+            
             if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {intList.add(2);}
+            
             if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {intList.add(3);}
 
             Random rand = new Random();
@@ -118,77 +125,100 @@ public class MappingRobotRandomMoving extends VirtualRobot {
             motion.moveDistance(defaultMoveSpeed, GRID_SPACE);
             delay(1000);
 
-            // if (rightTurns%4==1 && leftTurns%4==0){
-            //     robotY++;
-            // } else if (rightTurns%4==1 && leftTurns%4==1){
-            //     robotX++;
-            // } else if (rightTurns%4==1 && leftTurns%4==2){
-            //     robotY--;
-            // } else if (rightTurns%4==1 && leftTurns%4==3){
-            //     robotX--;
+            // Determine the movement based on the sum of right and left turns modulo 4
+            int direction = (rightTurns - leftTurns) % 4;
+
+            // Adjust direction to ensure it's within the range of 0 to 3
+            if (direction < 0) {
+                direction += 4;
+            }
+
+            // Move based on the calculated direction
+            switch (direction) {
+                case 0: // Facing north
+                    robotX++;
+                    break;
+                case 1: // Facing east
+                    robotY++;
+                    break;
+                case 2: // Facing south
+                    robotX--;
+                    break;
+                case 3: // Facing west
+                    robotY--;
+                    break;
+            }     
+                   
+            // // Determine the movement based on the number of right and left turns
+            // if (rightTurns % 4 == 0) { // If the number of right turns modulo 4 is 0 (facing north)
+            //     if (leftTurns % 4 == 0) { // If the number of left turns modulo 4 is 0
+            //         // Move north
+            //         robotX++;
+            //     } else if (leftTurns % 4 == 1) { // If the number of left turns modulo 4 is 1
+            //         // Move west
+            //         robotY--;
+            //     } else if (leftTurns % 4 == 2) { // If the number of left turns modulo 4 is 2
+            //         // Move south
+            //         robotX--;
+            //     } else if (leftTurns % 4 == 3) { // If the number of left turns modulo 4 is 3
+            //         // Move east
+            //         robotY++;
+            //     }
+            // } else if (rightTurns % 4 == 1) { // If the number of right turns modulo 4 is 1 (facing east)
+            //     // Similar logic follows for other directions
+            //     if (leftTurns % 4 == 0) {
+            //         // Move east
+            //         robotY++;
+            //     } else if (leftTurns % 4 == 1) {
+            //         // Move north
+            //         robotX++;
+            //     } else if (leftTurns % 4 == 2) {
+            //         // Move west
+            //         robotY--;
+            //     } else if (leftTurns % 4 == 3) {
+            //         // Move south
+            //         robotX--;
+            //     }
+            // } else if (rightTurns % 4 == 2) { // If the number of right turns modulo 4 is 2 (facing south)
+            //     if (leftTurns % 4 == 0) {
+            //         // Move south
+            //         robotX--;
+            //     } else if (leftTurns % 4 == 1) {
+            //         // Move east
+            //         robotY++;
+            //     } else if (leftTurns % 4 == 2) {
+            //         // Move north
+            //         robotX++;
+            //     } else if (leftTurns % 4 == 3) {
+            //         // Move west
+            //         robotY--;
+            //     }
+            // } else if (rightTurns % 4 == 3) { // If the number of right turns modulo 4 is 3 (facing west)
+            //     if (leftTurns % 4 == 0) {
+            //         // Move west
+            //         robotY--;
+            //     } else if (leftTurns % 4 == 1) {
+            //         // Move south
+            //         robotX--;
+            //     } else if (leftTurns % 4 == 2) {
+            //         // Move east
+            //         robotY++;
+            //     } else if (leftTurns % 4 == 3) {
+            //         // Move north
+            //         robotX++;
+            //     }
             // }
 
-            // Determine the movement based on the number of right and left turns
-            if (rightTurns % 4 == 0) { // If the number of right turns modulo 4 is 0 (facing north)
-                if (leftTurns % 4 == 0) { // If the number of left turns modulo 4 is 0
-                    // Move north
-                    robotX++;
-                } else if (leftTurns % 4 == 1) { // If the number of left turns modulo 4 is 1
-                    // Move west
-                    robotY--;
-                } else if (leftTurns % 4 == 2) { // If the number of left turns modulo 4 is 2
-                    // Move south
-                    robotX--;
-                } else if (leftTurns % 4 == 3) { // If the number of left turns modulo 4 is 3
-                    // Move east
-                    robotY++;
-                }
-            } else if (rightTurns % 4 == 1) { // If the number of right turns modulo 4 is 1 (facing east)
-                // Similar logic follows for other directions
-                if (leftTurns % 4 == 0) {
-                    // Move east
-                    robotY++;
-                } else if (leftTurns % 4 == 1) {
-                    // Move north
-                    robotX++;
-                } else if (leftTurns % 4 == 2) {
-                    // Move west
-                    robotY--;
-                } else if (leftTurns % 4 == 3) {
-                    // Move south
-                    robotX--;
-                }
-            } else if (rightTurns % 4 == 2) { // If the number of right turns modulo 4 is 2 (facing south)
-                if (leftTurns % 4 == 0) {
-                    // Move south
-                    robotX--;
-                } else if (leftTurns % 4 == 1) {
-                    // Move east
-                    robotY++;
-                } else if (leftTurns % 4 == 2) {
-                    // Move north
-                    robotX++;
-                } else if (leftTurns % 4 == 3) {
-                    // Move west
-                    robotY--;
-                }
-            } else if (rightTurns % 4 == 3) { // If the number of right turns modulo 4 is 3 (facing west)
-                if (leftTurns % 4 == 0) {
-                    // Move west
-                    robotY--;
-                } else if (leftTurns % 4 == 1) {
-                    // Move south
-                    robotX--;
-                } else if (leftTurns % 4 == 2) {
-                    // Move east
-                    robotY++;
-                } else if (leftTurns % 4 == 3) {
-                    // Move north
-                    robotX++;
+            // Change entries with value 3 to 1
+            for (int i = 0; i < occupancyGrid.length; i++) {
+                for (int j = 0; j < occupancyGrid[i].length; j++) {
+                    if (occupancyGrid[i][j] == 3) {
+                        occupancyGrid[i][j] = 1;
+                    }
                 }
             }
 
-            occupancyGrid[numRows-1-(int)robotX][(int)robotY] = 1;
+            occupancyGrid[numRows-1-(int)robotX][(int)robotY] = 3;
             
             // Print the array
             for (int row = 0; row < numRows; row++) {
