@@ -4,7 +4,7 @@ import swarm.robot.VirtualRobot;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MappingRobotRandomMoving extends VirtualRobot {
+public class MappingRobotRandomMoving1 extends VirtualRobot {
     
     // Size of a grid cell
     private final double GRID_SPACE = 18.000;
@@ -32,7 +32,7 @@ public class MappingRobotRandomMoving extends VirtualRobot {
     double robotRow = 0;
     double robotCol = 0;
 
-    public MappingRobotRandomMoving(int id, double x, double y, double heading) {
+    public MappingRobotRandomMoving1(int id, double x, double y, double heading) {
         super(id, x, y, heading);
         robotRow=(x+81)/18;
         robotCol=(y+81)/18;
@@ -97,24 +97,16 @@ public class MappingRobotRandomMoving extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
                 } 
             } else {
@@ -149,24 +141,16 @@ public class MappingRobotRandomMoving extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
                 } 
             } else {
@@ -201,24 +185,16 @@ public class MappingRobotRandomMoving extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
                 } 
             } else {

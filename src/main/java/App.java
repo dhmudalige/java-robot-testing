@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import Robots.samples.MappingRobot;
-import Robots.samples.MappingRobotRandomMoving;
+import Robots.samples.MappingRobotRandomMoving1;
+import Robots.samples.MappingRobotRandomMoving2;
 import Robots.samples.MazeFollowingRobot;
 import Robots.samples.ObstacleAvoidRobot;
 import Robots.samples.SampleRobot;
@@ -46,11 +47,11 @@ public class App {
 
 
             // Start a 2 robots
-            Robot robot1 = new MappingRobotRandomMoving(1, -81, -81, 90);
-            new Thread(robot1).start();
+            // Robot robot1 = new MappingRobotRandomMoving1(1, -81, -81, 90);
+            // new Thread(robot1).start();
 
-            // Robot robot2 = new MappingRobotRandomMoving(2, 81, 81, 90);
-            // new Thread(robot2).start();   
+            Robot robot2 = new MappingRobotRandomMoving1(2, 81, 81, 90);
+            new Thread(robot2).start();   
             
             
             // // Start a swarm of robots
