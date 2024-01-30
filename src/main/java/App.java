@@ -47,11 +47,11 @@ public class App {
 
 
             // Start a 2 robots
-            // Robot robot1 = new MappingRobotRandomMoving1(1, -81, -81, 90);
-            // new Thread(robot1).start();
+            Robot robot1 = new MappingRobotRandomMoving2(1, -81, -81, 90);
+            new Thread(robot1).start();
 
-            Robot robot2 = new MappingRobotRandomMoving1(2, 81, 81, 90);
-            new Thread(robot2).start();   
+            // Robot robot2 = new MappingRobotRandomMoving1(2, 81, 81, 90);
+            // new Thread(robot2).start();   
             
             
             // // Start a swarm of robots
