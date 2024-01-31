@@ -86,6 +86,11 @@ public class MappingRobotRandomMoving2 extends VirtualRobot {
 
             // Determine the movement based on the sum of right and left turns modulo 4
             int direction = (rightTurns - leftTurns) % 4;
+            
+            // Adjust direction to ensure it's within the range of 0 to 3
+            if (direction < 0) {
+                direction += 4;
+            }
 
             ArrayList<Integer> intList = new ArrayList<>();
 
@@ -102,6 +107,9 @@ public class MappingRobotRandomMoving2 extends VirtualRobot {
                             // System.out.println(i);
                             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(i)] = 1;
                         }
+                        // if ((int)robotCol+(i)+1<numCols) {
+                        //     occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(i)] = 2;
+                        // }
                         break;
                     case 1: // Facing east
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
