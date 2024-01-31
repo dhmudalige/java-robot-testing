@@ -94,30 +94,22 @@ public class RotatingRobot extends VirtualRobot {
             // will rotate that side.
             if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {
                 intList.add(1);
-                
+
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
-                } 
+                }
             } else {
                 // Mark obstacles
                 switch (direction) {
@@ -141,35 +133,27 @@ public class RotatingRobot extends VirtualRobot {
                             occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
                         }
                         break;
-                } 
+                }
             }
-            
+
             if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {
                 intList.add(2);
 
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
-                } 
+                }
             } else {
                 // Mark obstacles
                 switch (direction) {
@@ -193,35 +177,27 @@ public class RotatingRobot extends VirtualRobot {
                             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
                         }
                         break;
-                } 
+                }
             }
-            
+
             if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {
                 intList.add(3);
 
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 1;
                         break;
                     case 1: // Facing east
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 1;
                         break;
                     case 2: // Facing south
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
-                        }
+                        occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 1;
                         break;
                     case 3: // Facing west
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
-                        }
+                        occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 1;
                         break;
-                } 
+                }
             } else {
                 // Mark obstacles
                 switch (direction) {
@@ -245,12 +221,12 @@ public class RotatingRobot extends VirtualRobot {
                             occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
                         }
                         break;
-                } 
+                }
             }
 
             Random rand = new Random();
             int randomIndex = rand.nextInt(intList.size()); // Generate a random index
-            int randomElement = intList.get(randomIndex); // Get the element at the random index    
+            int randomElement = intList.get(randomIndex); // Get the element at the random index
 
             if (randomElement==1) {
                 // Right
@@ -295,7 +271,7 @@ public class RotatingRobot extends VirtualRobot {
                 case 3: // Facing west
                     robotCol--;
                     break;
-            }     
+            }
 
             // Change entries with value 3 to 1
             for (int i = 0; i < occupancyGrid.length; i++) {
@@ -307,7 +283,7 @@ public class RotatingRobot extends VirtualRobot {
             }
 
             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol] = 3;
-            
+
             // Print the array
             for (int row = 0; row < numRows; row++) {
                 for (int col = 0; col < numCols; col++) {
