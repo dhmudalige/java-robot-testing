@@ -46,7 +46,7 @@ public class App {
             // new Thread(robot).start();
 
 
-            // Start a 2 robots
+            // Start 2 robots
             Robot robot1 = new MappingRobotRandomMoving2(1, -81, -81, 90);
             new Thread(robot1).start();
 
