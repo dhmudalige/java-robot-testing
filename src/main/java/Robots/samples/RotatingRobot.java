@@ -8,13 +8,10 @@ import java.util.Random;
 public class RotatingRobot extends VirtualRobot {
 
     // Size of a grid cell
-    private final double GRID_SPACE = 18.000;
-
-    // The default movement speed
-    private final int defaultMoveSpeed = 200;
+    private static final double GRID_SPACE = 18.000;
 
     // The default rotate speed
-    private final int defaultRotateSpeed = 200;
+    private static final int defaultRotateSpeed = 100;
 
     // Proximity Sensor options
     // Angles for left,front and right side rotating
@@ -54,9 +51,7 @@ public class RotatingRobot extends VirtualRobot {
         // Setup proximity sensor with 3 angles
         proximitySensor.setAngles(proximityAngles);
 
-        // Start immediately after the setup
         state = robotState.RUN;
-
 
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -82,6 +77,8 @@ public class RotatingRobot extends VirtualRobot {
         super.loop();
 
         if (state == robotState.RUN) {
+            motion.rotate(defaultRotateSpeed);
+
             // Get present distances from robot's left,front and right
             int[] d = proximitySensor.getProximity().distances();
 
@@ -221,64 +218,6 @@ public class RotatingRobot extends VirtualRobot {
                             occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
                         }
                         break;
-                }
-            }
-
-            Random rand = new Random();
-            int randomIndex = rand.nextInt(intList.size()); // Generate a random index
-            int randomElement = intList.get(randomIndex); // Get the element at the random index
-
-            if (randomElement==1) {
-                // Right
-                motion.rotateDegree(defaultRotateSpeed, 90);
-                rightTurns++;
-
-            } else if (randomElement==2) {
-                // Front
-
-            } else if (randomElement==3) {
-                // Turn Left
-                motion.rotateDegree(defaultRotateSpeed, -90);
-                leftTurns++;
-            } else {
-                // If robot can't go left,right and front then robot will rotate to back.
-                motion.rotateDegree(defaultRotateSpeed, 180);
-            }
-
-            // Robot move
-            motion.moveDistance(defaultMoveSpeed, GRID_SPACE);
-            delay(1000);
-
-            // Determine the movement based on the sum of right and left turns modulo 4
-            direction = (rightTurns - leftTurns) % 4;
-
-            // Adjust direction to ensure it's within the range of 0 to 3
-            if (direction < 0) {
-                direction += 4;
-            }
-
-            // Move based on the calculated direction
-            switch (direction) {
-                case 0: // Facing north
-                    robotRow++;
-                    break;
-                case 1: // Facing east
-                    robotCol++;
-                    break;
-                case 2: // Facing south
-                    robotRow--;
-                    break;
-                case 3: // Facing west
-                    robotCol--;
-                    break;
-            }
-
-            // Change entries with value 3 to 1
-            for (int i = 0; i < occupancyGrid.length; i++) {
-                for (int j = 0; j < occupancyGrid[i].length; j++) {
-                    if (occupancyGrid[i][j] == 3) {
-                        occupancyGrid[i][j] = 1;
-                    }
                 }
             }
 

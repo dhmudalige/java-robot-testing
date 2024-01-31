@@ -1,6 +1,6 @@
-package Robots.testbed;
+package Robots.cases;
 
-import Robots.samples.MappingRobotRandomMoving2;
+import Robots.samples.RotatingRobot;
 import swarm.configs.MQTTSettings;
 import swarm.robot.Robot;
 
@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class MaximumCoverageTest {
+public class TestCase1 {
 
     public static void main(String[] args) {
 
@@ -32,23 +32,9 @@ public class MaximumCoverageTest {
             MQTTSettings.channel = props.getProperty("channel", "v1");
             reader.close();
 
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
-            // new Thread(robot).start();
-
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, -81, -81, 90);
-            // new Thread(robot).start();
-
-
-            // Start a 2 robots
-            Robot robot1 = new MappingRobotRandomMoving2(1, -81, -81, 90);
+            Robot robot1 = new RotatingRobot(1, -45, -45, 90);
             new Thread(robot1).start();
 
-            // Robot robot2 = new MappingRobotRandomMoving(2, 81, 81, 90);
-            // new Thread(robot2).start();   
-            
-            
             // // Start a swarm of robots
             // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
