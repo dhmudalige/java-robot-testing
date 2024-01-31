@@ -103,57 +103,73 @@ public class MappingRobotRandomMoving2 extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
+                        int count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             // System.out.println(i);
                             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(i)] = 1;
+                            count++;
                         }
-                        // if ((int)robotCol+(i)+1<numCols) {
-                        //     occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(i)] = 2;
-                        // }
+                        if ((int)robotCol+(count)+1<numCols) {
+                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(count)] = 2;
+                        }
                         break;
                     case 1: // Facing east
+                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             occupancyGrid[numRows-1-((int)robotRow-(i))][(int)robotCol] = 1;
+                            count++;
+                        }
+                        if (numRows-1-((int)robotRow-(count))<numRows) {
+                            occupancyGrid[numRows-1-((int)robotRow-(count))][(int)robotCol] = 2;
                         }
                         break;
                     case 2: // Facing south
+                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-(i)] = 1;
+                            count++;
                         }
-                        
+                        if ((int)robotCol-(count)>0) {
+                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-(count)] = 2;
+                        }
                         break;
                     case 3: // Facing west
+                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             occupancyGrid[numRows-1-((int)robotRow+(i))][(int)robotCol] = 1;
+                            count++;
                         }
-                        
-                        break;
-                } 
-            } else {
-                // Mark obstacles
-                switch (direction) {
-                    case 0: // Facing north
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
-                        }
-                        break;
-                    case 1: // Facing east
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
-                        }
-                        break;
-                    case 2: // Facing south
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
-                        }
-                        break;
-                    case 3: // Facing west
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
+                        if (numRows-1-((int)robotRow+(count))>0) {
+                            occupancyGrid[numRows-1-((int)robotRow+(count))][(int)robotCol] = 2;
                         }
                         break;
                 } 
-            }
+            } 
+            // else {
+            //     // Mark obstacles
+            //     switch (direction) {
+            //         case 0: // Facing north
+            //             if ((int)robotCol != numCols-1){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
+            //             }
+            //             break;
+            //         case 1: // Facing east
+            //             if ((int)robotRow != 0){
+            //                 occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //         case 2: // Facing south
+            //             if ((int)robotCol != 0){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
+            //             }
+            //             break;
+            //         case 3: // Facing west
+            //             if ((int)robotRow != numRows-1){
+            //                 occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //     } 
+            // }
             
             if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {
                 intList.add(2);
@@ -185,31 +201,32 @@ public class MappingRobotRandomMoving2 extends VirtualRobot {
                         
                         break;
                 } 
-            } else {
-                // Mark obstacles
-                switch (direction) {
-                    case 0: // Facing north
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
-                        }
-                        break;
-                    case 1: // Facing east
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
-                        }
-                        break;
-                    case 2: // Facing south
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
-                        }
-                        break;
-                    case 3: // Facing west
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
-                        }
-                        break;
-                } 
-            }
+            } 
+            // else {
+            //     // Mark obstacles
+            //     switch (direction) {
+            //         case 0: // Facing north
+            //             if ((int)robotRow != numRows-1){
+            //                 occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //         case 1: // Facing east
+            //             if ((int)robotCol != numCols-1){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
+            //             }
+            //             break;
+            //         case 2: // Facing south
+            //             if ((int)robotRow != 0){
+            //                 occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //         case 3: // Facing west
+            //             if ((int)robotCol != 0){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
+            //             }
+            //             break;
+            //     } 
+            // }
             
             if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {
                 intList.add(3);
@@ -241,31 +258,32 @@ public class MappingRobotRandomMoving2 extends VirtualRobot {
                         
                         break;
                 } 
-            } else {
-                // Mark obstacles
-                switch (direction) {
-                    case 0: // Facing north
-                        if ((int)robotCol != 0){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
-                        }
-                        break;
-                    case 1: // Facing east
-                        if ((int)robotRow != numRows-1){
-                            occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
-                        }
-                        break;
-                    case 2: // Facing south
-                        if ((int)robotCol != numCols-1){
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
-                        }
-                        break;
-                    case 3: // Facing west
-                        if ((int)robotRow != 0){
-                            occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
-                        }
-                        break;
-                } 
-            }
+            } 
+            // else {
+            //     // Mark obstacles
+            //     switch (direction) {
+            //         case 0: // Facing north
+            //             if ((int)robotCol != 0){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-1] = 2;
+            //             }
+            //             break;
+            //         case 1: // Facing east
+            //             if ((int)robotRow != numRows-1){
+            //                 occupancyGrid[numRows-1-((int)robotRow+1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //         case 2: // Facing south
+            //             if ((int)robotCol != numCols-1){
+            //                 occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+1] = 2;
+            //             }
+            //             break;
+            //         case 3: // Facing west
+            //             if ((int)robotRow != 0){
+            //                 occupancyGrid[numRows-1-((int)robotRow-1)][(int)robotCol] = 2;
+            //             }
+            //             break;
+            //     } 
+            // }
 
             Random rand = new Random();
             int randomIndex = rand.nextInt(intList.size()); // Generate a random index

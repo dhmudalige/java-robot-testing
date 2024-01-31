@@ -50,8 +50,8 @@ public class App {
             Robot robot1 = new MappingRobotRandomMoving2(1, -81, -81, 90);
             new Thread(robot1).start();
 
-            // Robot robot2 = new MappingRobotRandomMoving2(2, 81, 81, 90);
-            // new Thread(robot2).start();   
+            Robot robot2 = new MappingRobotRandomMoving2(2, 81, 81, 90);
+            new Thread(robot2).start();   
             
             
             // // Start a swarm of robots
