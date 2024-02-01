@@ -26,14 +26,32 @@ public class RotatingRobot extends VirtualRobot {
     // Index to get right proximity angle
     public static int PROXIMITY_RIGHT = 2;
 
+    // Radius of the robot
+    public static double ROBOT_RADIUS = 6;
+
+    //////////// Coverage /////////////
+    public static double COVERAGE = 24;
+    ///////////////////////////////////
+
     // Robot's initial position
     double robotRow = 0;
     double robotCol = 0;
+
+    // Robot's coverage radius
+    private double radius = ROBOT_RADIUS + COVERAGE;
 
     public RotatingRobot(int id, double x, double y, double heading) {
         super(id, x, y, heading);
         robotRow=(x+81)/18;
         robotCol=(y+81)/18;
+    }
+
+    public double getRobotRow() {
+        return robotRow;
+    }
+
+    public double getRobotCol() {
+        return robotCol;
     }
 
     int numRows=10;
@@ -77,7 +95,9 @@ public class RotatingRobot extends VirtualRobot {
         super.loop();
 
         if (state == robotState.RUN) {
-            motion.rotate(defaultRotateSpeed);
+            /////////////////////////////////////////////////
+            motion.rotate(defaultRotateSpeed, 10000);
+            /////////////////////////////////////////////////
 
             // Get present distances from robot's left,front and right
             int[] d = proximitySensor.getProximity().distances();
