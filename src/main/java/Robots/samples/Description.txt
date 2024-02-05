@@ -9,3 +9,7 @@ Robots  update the status of all the cells in the range of proximity sensor (fro
 
 MappingRobotRandomMoving3
 Intercommunication and map merging implemented
+
+MappingRobotRandomMoving4
+Implemented assuming starting points and heading directions of robots were unknown.
+Have to implement map merging.
