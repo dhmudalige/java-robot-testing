@@ -2,7 +2,10 @@ MappingRobot
 Used to check tracking of robot
 
 MappingRobotRandomMoving1
-Robots only update the status of nearby cells (front, back, left, right)
+Robots only update the status of nearby 3 cells (front, left, right)
 
 MappingRobotRandomMoving2
-Robots  update the status of all the cells in the range of proximity sensor (front, back, left, right)
+Robots  update the status of all the cells in the range of proximity sensor (front, left, right)
+
+MappingRobotRandomMoving3
+Intercommunication and map merging implemented
