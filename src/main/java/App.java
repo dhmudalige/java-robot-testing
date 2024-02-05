@@ -62,7 +62,7 @@ public class App {
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            int[] headingDirections = {-90, 0, 90, 180}; //left, front, right, back
+            int[] headingDirections = {-90, 0, 90, 180}; // 0-right, 90-top, -90-bottom, 180-left
             int[] x = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};
             int[] y = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};
 
@@ -105,7 +105,7 @@ public class App {
             
             
 
-            
+
             // // Start a swarm of robots
             // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
