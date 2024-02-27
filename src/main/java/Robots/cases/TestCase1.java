@@ -35,27 +35,30 @@ public class TestCase1 {
             MQTTSettings.channel = props.getProperty("channel", "v1");
             reader.close();
 
-//            Robot robot1 = new RotatingRobot(1, -45, -45, 90);
-//            new Thread(robot1).start();
+            Robot robot1 = new RotatingRobot(1, -45, -45, 90);
+            new Thread(robot1).start();
 
-            // Start a swarm of robots
-            int robotCount = 4;
-            ArrayList<Integer> robotList = new ArrayList<>(robotCount);
-            for (int i = 0; i < robotCount; i++) {
-                robotList.add(i);
-            }
+            Robot robot2 = new RotatingRobot(2, 81, 81, 90);
+            new Thread(robot2).start();
 
-             int startX = 0;
-             int startY = 0;
-             int startHeading = 90;
-
-             Robot[] vr = new VirtualRobot[robotCount];
-
-             for (int i = 0; i < robotCount; i++) {
-                 vr[i] = new SampleRobot(robotList.get(i), startX + 40 * i, startY + 50 * i,
-                 startHeading + 10 * i);
-                 new Thread(vr[i]).start();
-             }
+//            // Start a swarm of robots
+//            int robotCount = 4;
+//            ArrayList<Integer> robotList = new ArrayList<>(robotCount);
+//            for (int i = 0; i < robotCount; i++) {
+//                robotList.add(i);
+//            }
+//
+//             int startX = 0;
+//             int startY = 0;
+//             int startHeading = 90;
+//
+//             Robot[] vr = new VirtualRobot[robotCount];
+//
+//             for (int i = 0; i < robotCount; i++) {
+//                 vr[i] = new SampleRobot(robotList.get(i), startX + 40 * i, startY + 50 * i,
+//                 startHeading + 10 * i);
+//                 new Thread(vr[i]).start();
+//             }
 
         } catch (FileNotFoundException ex) {
             // file does not exist

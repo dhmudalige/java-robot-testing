@@ -3,6 +3,7 @@ package Robots.samples;
 import swarm.robot.VirtualRobot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class RotatingRobot extends VirtualRobot {
@@ -62,9 +63,11 @@ public class RotatingRobot extends VirtualRobot {
     int leftTurns=0;
 
     public void setup() {
-        System.out.println("My Test Rotating Robot Started");
-
         super.setup();
+
+        long currentTimestamp = System.currentTimeMillis();
+
+        System.out.println("My Test Rotating Robot " + this.id + " Started");
 
         // Setup proximity sensor with 3 angles
         proximitySensor.setAngles(proximityAngles);
@@ -79,6 +82,10 @@ public class RotatingRobot extends VirtualRobot {
 
         // Mark the starting cell as visited
         occupancyGrid[numRows-1-(int)robotRow][(int)robotCol] = 3;
+
+//        simpleComm.sendMessage(this.id + " " + Arrays.deepToString(occupancyGrid));
+        String message = this.id + " @" + currentTimestamp + " " + Arrays.deepToString(occupancyGrid);
+        simpleComm.sendMessage(message);
 
         // Print the array
         for (int row = 0; row < numRows; row++) {
@@ -243,14 +250,23 @@ public class RotatingRobot extends VirtualRobot {
 
             occupancyGrid[numRows-1-(int)robotRow][(int)robotCol] = 3;
 
-            // Print the array
-            for (int row = 0; row < numRows; row++) {
-                for (int col = 0; col < numCols; col++) {
-                    System.out.print(occupancyGrid[row][col] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
+//            // Print the array
+//            for (int row = 0; row < numRows; row++) {
+//                for (int col = 0; col < numCols; col++) {
+//                    System.out.print(occupancyGrid[row][col] + " ");
+//                }
+//                System.out.println();
+//            }
+//            System.out.println();
+        }
+    }
+    @Override
+    public void communicationInterrupt(String msg) {
+        String[] parts = msg.split("\\s+");
+        int sourceRobotID = Integer.parseInt(parts[0]);
+
+        if(!(sourceRobotID == this.id)) {
+            System.out.println("Communication Interrupt for " + this.id + " by " + sourceRobotID + " " + parts[1]);
         }
     }
 }
