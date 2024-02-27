@@ -87,6 +87,11 @@ public class MappingRobotRandomMoving1 extends VirtualRobot {
             // Determine the movement based on the sum of right and left turns modulo 4
             int direction = (rightTurns - leftTurns) % 4;
 
+            // Adjust direction to ensure it's within the range of 0 to 3
+            if (direction < 0) {
+                direction += 4;
+            }
+
             ArrayList<Integer> intList = new ArrayList<>();
 
             // Robot rotating way :- if distance from (any side +6) > GRID_SPACE then robot
