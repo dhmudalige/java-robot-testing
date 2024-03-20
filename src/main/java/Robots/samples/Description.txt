@@ -13,6 +13,7 @@ Robots update the status of all the cells in the range of proximity sensor (fron
 MappingRobotRandomMoving3
 -------------------------
 Intercommunication and map merging implemented
+For known initial positions and heading directions
 
 MappingRobotRandomMoving4
 -------------------------

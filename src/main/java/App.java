@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import Robots.samples.MappingRobot;
+import Robots.samples.MappingRobot3;
 import Robots.samples.MappingRobotRandomMoving1;
 import Robots.samples.MappingRobotRandomMoving2;
 import Robots.samples.MappingRobotRandomMoving3;
@@ -62,49 +63,55 @@ public class App {
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            int[] headingDirections = {-90, 0, 90, 180}; // 0-right, 90-top, -90-bottom, 180-left
-            int[] x = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};
-            int[] y = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};
-
-            int[][] obstacles = {
-                {9, 9},
-                {45, 45},
-                {-63, 45},
-                {63, -45},
-                {-45, -45}
-            };
-
-            int randomHeading, randomX, randomY;
-            Random random = new Random();
-            randomHeading = random.nextInt(headingDirections.length);
-            do {
-                randomX = random.nextInt(x.length);
-                randomY = random.nextInt(y.length);
-            } while (isObstacle(x[randomX], y[randomY], obstacles));
-    
-            System.out.println("Robot1 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
-    
-
-            // Start 2 mapping robots
-            Robot robot1 = new MappingRobotRandomMoving4(1, x[randomX], y[randomY], headingDirections[randomHeading]);
-            new Thread(robot1).start();
+            Robot robot = new MappingRobot3(10, 27, 27, 90);
+            new Thread(robot).start();
 
 
+            //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
+            // int[] headingDirections = {-90, 0, 90, 180};            // 0-right, 90-top, -90-bottom, 180-left
+            // int[] x = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};  // possible x coordinates robots can move
+            // int[] y = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};  // possible y coordinates robots can move
 
-            randomHeading = random.nextInt(headingDirections.length);
-            do {
-                randomX = random.nextInt(x.length);
-                randomY = random.nextInt(y.length);
-            } while (isObstacle(x[randomX], y[randomY], obstacles));
+            // int[][] obstacles = {
+            //     {9, 9},
+            //     {45, 45},
+            //     {-63, 45},
+            //     {63, -45},
+            //     {-45, -45}
+            // };
 
-            System.out.println("Robot2 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
-
-            Robot robot2 = new MappingRobotRandomMoving4(2, x[randomX], y[randomY], headingDirections[randomHeading]);
-            new Thread(robot2).start();   
+            // int randomHeading, randomX, randomY;
             
+            // // robot 1
+            // Random random = new Random();
+            // randomHeading = random.nextInt(headingDirections.length);
+            // do {
+            //     randomX = random.nextInt(x.length);
+            //     randomY = random.nextInt(y.length);
+            // } while (isObstacle(x[randomX], y[randomY], obstacles));
+    
+            // System.out.println("Robot1 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
+    
+            // Robot robot1 = new MappingRobotRandomMoving4(1, x[randomX], y[randomY], headingDirections[randomHeading]);
+            // new Thread(robot1).start();
+
+            // // robot 2
+            // randomHeading = random.nextInt(headingDirections.length);
+            // do {
+            //     randomX = random.nextInt(x.length);
+            //     randomY = random.nextInt(y.length);
+            // } while (isObstacle(x[randomX], y[randomY], obstacles));
+
+            // System.out.println("Robot2 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
+
+            // Robot robot2 = new MappingRobotRandomMoving4(2, x[randomX], y[randomY], headingDirections[randomHeading]);
+            // new Thread(robot2).start();   
+            
+            //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
             
 
+            //--------------Nuwan aiya swarm code
 
             // // Start a swarm of robots
             // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -120,6 +127,8 @@ public class App {
             // startHeading + 10 * i);
             // new Thread(vr[i]).start();
             // }
+
+            //--------------Nuwan aiya swarm code
 
         } catch (FileNotFoundException ex) {
             // file does not exist

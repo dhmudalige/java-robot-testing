@@ -1,0 +1,9 @@
+MappingRobotAlg1:
+Tracks the robots movements
+Shows the cells robot traveled by 1
+
+MappingRobotAlg2:
+Tracks the robots movements
+Shows the number of times the robot traveled to a cell
+
+
