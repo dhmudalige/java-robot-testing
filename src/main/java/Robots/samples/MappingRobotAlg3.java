@@ -1,10 +1,8 @@
 package Robots.samples;
 
 import swarm.robot.VirtualRobot;
-import java.util.ArrayList;
-import java.util.Random;
 
-public class MappingRobotAlg2 extends VirtualRobot {
+public class MappingRobotAlg3 extends VirtualRobot {
     
     // Size of a grid cell
     private final double GRID_SPACE = 18.000;
@@ -35,7 +33,7 @@ public class MappingRobotAlg2 extends VirtualRobot {
     int cellValue = 0;
     int[] cellValuesNESW = new int[4];
 
-    public MappingRobotAlg2(int id, double x, double y, double heading) {
+    public MappingRobotAlg3(int id, double x, double y, double heading) {
         super(id, x, y, heading);
         robotRow=(x+81)/18;
         robotCol=(y+81)/18;
@@ -102,7 +100,7 @@ public class MappingRobotAlg2 extends VirtualRobot {
             }
             
             
-
+            // get the cellValues
             if (rRow!=0){
                 cellValuesNESW[0]=occupancyGrid[rRow-1][rCol];
                 // System.out.println(occupancyGrid[rRow-1][rCol]);
@@ -139,7 +137,182 @@ public class MappingRobotAlg2 extends VirtualRobot {
                 }
             }
 
-            System.out.println(minCellValue + " " + minCellValueIndex);
+            // System.out.println(minCellValue + " " + minCellValueIndex);
+
+
+
+            cellValue = occupancyGrid[rRow][rCol];
+
+            // Change entries with value 3 to 1
+            for (int i = 0; i < occupancyGrid.length; i++) {
+                for (int j = 0; j < occupancyGrid[i].length; j++) {
+                    if (occupancyGrid[i][j] == -2) {
+                        occupancyGrid[i][j] = 3;
+                    }
+                }
+            }
+
+
+
+
+
+
+            // Robot rotating way :- if distance from (any side +6) > GRID_SPACE then robot
+            // will rotate that side.
+            if (d[PROXIMITY_RIGHT] + 6 > GRID_SPACE) {
+                
+                // System.out.println(d[PROXIMITY_RIGHT]);
+                
+                // Mark free spaces
+                switch (direction) {
+                    case 0: // Facing north
+                        int count=0;
+                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
+                            // System.out.println(i);
+                            occupancyGrid[rRow][rCol+(i)] += 1;
+                            count++;
+                        }
+                        if (rCol+(count)+1<numCols && occupancyGrid[rRow][rCol+(count)] == 0) {
+                            occupancyGrid[rRow][rCol+(count)] = -1;
+                        }
+                        break;
+                    case 1: // Facing east
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow+i][rCol] += 1;
+                            count++;
+                        }
+                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol]  == 0) {
+                            occupancyGrid[rRow+count][rCol] = -1;
+                        }
+                        break;
+                    case 2: // Facing south
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow][rCol-(i)] += 1;
+                            count++;
+                        }
+                        if (rCol-(count)>0 && occupancyGrid[rRow][rCol-(count)] == 0) {
+                            occupancyGrid[rRow][rCol-(count)] = -1;
+                        }
+                        break;
+                    case 3: // Facing west
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow-i][rCol] += 1;
+                            count++;
+                        }
+                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
+                            occupancyGrid[rRow-count][rCol] = -1;
+                        }
+                        break;
+                } 
+            } 
+            
+            if (d[PROXIMITY_FRONT] + 6 > GRID_SPACE) {
+
+                // Mark free spaces
+                switch (direction) {
+                    case 0: // Facing north
+                        int count=0;
+                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow-i][rCol] += 1;
+                            count++;
+                        }
+                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
+                            occupancyGrid[rRow-count][rCol] = -1;
+                        }
+                        break;
+                    case 1: // Facing east
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow][rCol+i] += 1;
+                            count++;
+                        }                        
+                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
+                            occupancyGrid[rRow][rCol+count] = -1;
+                        }
+                        break;
+                    case 2: // Facing south
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow+i][rCol] += 1;
+                            count++;
+                        }       
+                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
+                            occupancyGrid[rRow+count][rCol] = -1;
+                        }
+                        break;
+                    case 3: // Facing west
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow][rCol-i] += 1;
+                            count++;
+                        }       
+                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
+                            occupancyGrid[rRow][rCol-count] = -1;
+                        }
+                        break;
+                } 
+            } 
+            
+            if (d[PROXIMITY_LEFT] + 6 > GRID_SPACE) {
+
+                // Mark free spaces
+                switch (direction) {
+                    case 0: // Facing north
+                        int count=0;
+                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow][rCol-i] += 1;
+                            count++;
+                        }       
+                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
+                            occupancyGrid[rRow][rCol-count] = -1;
+                        }
+                        break;
+                    case 1: // Facing east
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow-i][rCol] += 1;
+                            count++;
+                        }       
+                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
+                            occupancyGrid[rRow-count][rCol] = -1;
+                        }
+                        break;
+                    case 2: // Facing south
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow][rCol+i] += 1;
+                            count++;
+                        }       
+                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
+                            occupancyGrid[rRow][rCol+count] = -1;
+                        }
+                        break;
+                    case 3: // Facing west
+                        count=0;
+                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
+                            occupancyGrid[rRow+i][rCol] += 1;
+                            count++;
+                        }       
+                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
+                            occupancyGrid[rRow+count][rCol] = -1;
+                        }
+                        break;
+                } 
+            } 
+            
+            // printArray(occupancyGrid);
+
+
+
+
+
+
+
+
+
 
             // Move based on the calculated direction
             switch (direction) {
@@ -242,16 +415,9 @@ public class MappingRobotAlg2 extends VirtualRobot {
             rRow = numRows-1-(int)robotRow;
             rCol = (int)robotCol;
 
-            // Change entries with value 3 to 1
-            for (int i = 0; i < occupancyGrid.length; i++) {
-                for (int j = 0; j < occupancyGrid[i].length; j++) {
-                    if (occupancyGrid[i][j] == -2) {
-                        occupancyGrid[i][j] = cellValue + 1;
-                    }
-                }
-            }
 
-            cellValue = occupancyGrid[rRow][rCol];
+
+            
             occupancyGrid[rRow][rCol] = -2;
             
             printArray(occupancyGrid);
