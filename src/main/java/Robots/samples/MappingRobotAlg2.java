@@ -49,8 +49,8 @@ public class MappingRobotAlg2 extends VirtualRobot {
     int rightTurns=0;
     int leftTurns=0;
 
-    int rRow = numRows-1-(int)robotRow;
-    int rCol = (int)robotCol;
+    int rRow;
+    int rCol;
 
     public static void printArray(int[][] array) {
         for (int[] row : array) {
@@ -79,6 +79,9 @@ public class MappingRobotAlg2 extends VirtualRobot {
                 occupancyGrid[row][col] = 0; // set to unoccupied
             }
         }
+
+        rRow = numRows-1-(int)robotRow;
+        rCol = (int)robotCol;
 
         // Mark the starting cell as visited
         occupancyGrid[rRow][rCol] = -2;
