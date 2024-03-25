@@ -5,5 +5,15 @@ Shows the cells robot traveled by 1
 MappingRobotAlg2:
 Tracks the robots movements
 Shows the number of times the robot traveled to a cell
+Robot checks the cellValue of north, east, south, west cells
+Then travels to the cell with least number (precedence: NESW)
+Proxomity sensor readings were not used in here
+Supposed there are no obstacles
 
+MappingRobotAlg3:
+Update of MappingRobotAlg2
+Proxomity sensor readings were used in here.
+New alg used for the movements of robots
 
+MappingRobotAlg4:
+New alg. works fine

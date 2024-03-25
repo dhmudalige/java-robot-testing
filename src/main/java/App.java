@@ -10,6 +10,10 @@ import java.util.Properties;
 
 import Robots.samples.MappingRobot;
 import Robots.samples.MappingRobot3;
+import Robots.samples.MappingRobotAlg2;
+import Robots.samples.MappingRobotAlg3;
+import Robots.samples.MappingRobotAlg4;
+import Robots.samples.MappingRobotAlg5;
 import Robots.samples.MappingRobotRandomMoving1;
 import Robots.samples.MappingRobotRandomMoving2;
 import Robots.samples.MappingRobotRandomMoving3;
@@ -63,9 +67,11 @@ public class App {
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            Robot robot = new MappingRobot3(10, 27, 27, 90);
+            Robot robot = new MappingRobotAlg5(10, -81, -81, 90);
             new Thread(robot).start();
 
+            Robot robot1 = new MappingRobotAlg5(9, 63, 63, 90);
+            new Thread(robot1).start();
 
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
