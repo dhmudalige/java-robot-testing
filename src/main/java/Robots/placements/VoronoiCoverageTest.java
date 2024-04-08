@@ -89,9 +89,11 @@ public class VoronoiCoverageTest {
             Robot[] vr = new VirtualRobot[robotIDList.length];
 
             for (int i = 0; i < robotIDList.length; i++) {
-                int delta = random.nextInt() * i;
-                vr[i] = new SampleRobot(robotIDList[i], startX + delta, startY + delta + 10,
-                        startHeading + delta * i);
+                int delta = random.nextInt() % 18;
+                int sign = (random.nextInt() % 2 == 0) ? 1 : -1;
+
+                vr[i] = new SampleRobot(robotIDList[i], startX + Math.pow(sign * delta, 3) % 81, startY - sign * delta * 2,
+                        startHeading + delta);
                 new Thread(vr[i]).start();
             }
 
