@@ -1,24 +1,58 @@
 package Robots.placements;
 
-import Robots.samples.MappingRobotAlg5;
+import Robots.samples.SampleRobot;
 import swarm.configs.MQTTSettings;
 import swarm.robot.Robot;
+import swarm.robot.VirtualRobot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Random;
 
 public class VoronoiCoverageTest {
 
-    private static boolean isObstacle(int x, int y, int[][] obstacles) {
-        for (int[] pair : obstacles) {
-            if (pair[0] == x && pair[1] == y) {
-                return true;
+    public static final int GRID_LENGTH = 10;
+    public static final double COVERAGE_RADIUS = 18.0;
+
+    public void placeRobots(Robot[] robots, int n, int p, double r) {
+
+        // Iteratively refine points
+        boolean changed;
+        do {
+            changed = false;
+            for (Robot robot : robots) {
+                double newX = robot.coordinates.getX();
+                double newY = robot.coordinates.getY();
+
+                for (Robot otherRobot : robots) {
+                    if (robot != otherRobot) {
+                        double X = robot.coordinates.getX();
+                        double otherX = otherRobot.coordinates.getX();
+
+                        double Y = robot.coordinates.getY();
+                        double otherY = otherRobot.coordinates.getY();
+
+                        double distance = Math.sqrt(Math.pow(X - otherX, 2) + Math.pow(Y - otherY, 2));
+                        if (distance < 2 * r) {
+                            // Move the robot away from the other robot
+                            double moveX = (X - otherX) * (2 * r - distance) / distance;
+                            double moveY = (Y - otherY) * (2 * r - distance) / distance;
+                            newX += moveX;
+                            newY += moveY;
+                            changed = true;
+                        }
+                    }
+                }
+                // Update robot position
+                // robot.x = newX;
+                // robot.y = newY;
+                robot.communicationInterrupt("<Voronoi-Test> Updated ROBOT" + robot.getId() + " position");
             }
-        }
-        return false;
+        } while (changed);
+
     }
 
     public static void main(String[] args) {
@@ -45,82 +79,21 @@ public class VoronoiCoverageTest {
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
 
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, -81, -81, 90);
-            // new Thread(robot).start();
+            // Start a swarm of robots
+            Random random = new Random();
 
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
-            // new Thread(robot).start();
+            int[] robotIDList = {0, 1, 2, 3, 4};
 
-            Robot robot = new MappingRobotAlg5(10, -81, -81, 90);
-            new Thread(robot).start();
+            int startX = 0, startY = 0, startHeading = 90;
 
-            Robot robot1 = new MappingRobotAlg5(9, 63, 63, 90);
-            new Thread(robot1).start();
+            Robot[] vr = new VirtualRobot[robotIDList.length];
 
-            //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
-
-            // int[] headingDirections = {-90, 0, 90, 180};            // 0-right, 90-top, -90-bottom, 180-left
-            // int[] x = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};  // possible x coordinates robots can move
-            // int[] y = {-81, -63, -45, -27, -9, 9, 27, 45, 63, 81};  // possible y coordinates robots can move
-
-            // int[][] obstacles = {
-            //     {9, 9},
-            //     {45, 45},
-            //     {-63, 45},
-            //     {63, -45},
-            //     {-45, -45}
-            // };
-
-            // int randomHeading, randomX, randomY;
-            
-            // // robot 1
-            // Random random = new Random();
-            // randomHeading = random.nextInt(headingDirections.length);
-            // do {
-            //     randomX = random.nextInt(x.length);
-            //     randomY = random.nextInt(y.length);
-            // } while (isObstacle(x[randomX], y[randomY], obstacles));
-    
-            // System.out.println("Robot1 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
-    
-            // Robot robot1 = new MappingRobotRandomMoving4(1, x[randomX], y[randomY], headingDirections[randomHeading]);
-            // new Thread(robot1).start();
-
-            // // robot 2
-            // randomHeading = random.nextInt(headingDirections.length);
-            // do {
-            //     randomX = random.nextInt(x.length);
-            //     randomY = random.nextInt(y.length);
-            // } while (isObstacle(x[randomX], y[randomY], obstacles));
-
-            // System.out.println("Robot2 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
-
-            // Robot robot2 = new MappingRobotRandomMoving4(2, x[randomX], y[randomY], headingDirections[randomHeading]);
-            // new Thread(robot2).start();   
-            
-            //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
-            
-
-            //--------------Nuwan aiya swarm code
-
-            // // Start a swarm of robots
-            // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-            // int startX = 0;
-            // int startY = 0;
-            // int startHeading = 90;
-
-            // Robot[] vr = new VirtualRobot[robotList.length];
-
-            // for (int i = 0; i < robotList.length; i++) {
-            // vr[i] = new SampleRobot(robotList[i], startX + 40 * i, startY + 50 * i,
-            // startHeading + 10 * i);
-            // new Thread(vr[i]).start();
-            // }
-
-            //--------------Nuwan aiya swarm code
+            for (int i = 0; i < robotIDList.length; i++) {
+                int delta = random.nextInt() * i;
+                vr[i] = new SampleRobot(robotIDList[i], startX + delta, startY + delta + 10,
+                        startHeading + delta * i);
+                new Thread(vr[i]).start();
+            }
 
         } catch (FileNotFoundException ex) {
             // file does not exist
