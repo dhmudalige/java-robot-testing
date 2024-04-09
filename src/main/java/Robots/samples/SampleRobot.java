@@ -15,7 +15,7 @@ public class SampleRobot extends VirtualRobot {
 
     public void loop() throws Exception {
         super.loop();
-
+        delay(500);
         if (state == robotState.RUN) {
             System.out.println("Run");
 
