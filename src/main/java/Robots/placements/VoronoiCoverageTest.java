@@ -16,10 +16,12 @@ import java.util.Properties;
 import java.util.Random;
 
 public class VoronoiCoverageTest {
-
+    public static final double GRID_SPACE = 18.0;
     public static final int GRID_LENGTH = 10;
+    public static final double MAX_LENGTH = (GRID_SPACE * GRID_LENGTH) / 8;
+
     public static final int ROBOTS_COUNT = 5;
-    public static final double COVERAGE_RADIUS = 2.0;
+    public static final double COVERAGE_RADIUS = 54.0;
 
     public static void main(String[] args) {
 
@@ -54,11 +56,13 @@ public class VoronoiCoverageTest {
             for (int i = 0; i < ROBOTS_COUNT; i++) {
                 RobotPosition p = rPositions.get(i);
 
-                System.out.println("Robot "+ p.robotId + ": x=" + p.x + ", y=" + p.y);
+                double newX = Math.min((startX + p.x), MAX_LENGTH);
+                double newY = Math.min((startY - p.y), MAX_LENGTH);
 
-                vr[i] = new SampleRobot(p.robotId, startX + p.x, startY - p.y,
-                        startHeading + delta.nextInt(8) * 45);
+                vr[i] = new SampleRobot(p.robotId, newX, newY,startHeading + delta.nextInt(4) * 90);
 //                vr[i].delay(1000);
+                System.out.println("Robot "+ p.robotId + ": x=" + newX + ", y=" + newY);
+
                 new Thread(vr[i]).start();
             }
 

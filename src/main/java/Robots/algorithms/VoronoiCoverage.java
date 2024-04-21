@@ -14,28 +14,28 @@ public class VoronoiCoverage {
      */
     List<RobotPosition> rPositionList = new ArrayList<>();
     Random random = new Random();
+    public static final int OFFSET = 0;
 
     public List<RobotPosition> placeRobots(int n, int p, double r) {
         // Generate initial random points
         for (int i = 0; i < p; i++) {
             /*
-            double delta = random.nextInt() % 18;
-            int sign = (random.nextInt() % 2 == 0) ? 1 : -1;
-            rPositionList.add(new RobotPosition(i, Math.pow(sign * delta, 3) % 81, sign * delta * 2));
-            */
-
             double x = random.nextDouble() * n;
             double y = random.nextDouble() * n;
             rPositionList.add(new RobotPosition(i, x, y));
+            System.out.println("R" + i + "=(" + x + "," + y + ")");
+            */
 
-//            System.out.println("R" + i + "=(" + x + "," + y + ")");
+            double delta = random.nextInt() % 10;
+            int sign = (random.nextInt() % 2 == 0) ? 1 : -1;
+            rPositionList.add(new RobotPosition(i, OFFSET + Math.pow(sign * delta, 3) % 36, OFFSET + sign * delta * 2));
         }
 
         // Iteratively refine points
         boolean changed;
+        int count = 0;
         do {
-//            changed = false;
-            changed = true;
+            changed = false;
             for (RobotPosition robot : rPositionList) {
                 double newX = robot.x;
                 double newY = robot.y;
@@ -55,17 +55,20 @@ public class VoronoiCoverage {
                             double moveY = (Y - otherY) * (2 * r - distance) / distance;
                             newX += moveX;
                             newY += moveY;
-                            System.out.println("(" + newX + "," + newY + ")");
-//                            changed = true;
-                            changed = false;
+
+                            System.out.println("R" + robot.robotId + " CHANGED --> (" + newX + "," + newY + ")");
+                            changed = true;
+                            count++;
                         }
                     }
                 }
                 // Update robot position
-                robot.x = Math.round(newX) % n;
-                robot.y = Math.round(newY) % n;
+//                robot.x = Math.round(newX) % n;
+//                robot.y = Math.round(newY) % n;
+                robot.x = Math.round(newX);
+                robot.y = Math.round(newY);
             }
-        } while (changed);
+        } while (changed && (count > 100));
 
         return rPositionList;
     }
