@@ -8,20 +8,24 @@ import java.util.Random;
 
 public class VoronoiCoverage {
     /*
-     * n - Size of the grid
      * p - Number of robots
      * r - Radius of robots
      */
-    List<RobotPosition> rPositionList = new ArrayList<>();
+
+    List<RobotPosition> rPositionList;
     Random random = new Random();
     public static final int OFFSET = 0;
 
-    public List<RobotPosition> placeRobots(int n, int p, double r) {
+    public VoronoiCoverage() {
+        this.rPositionList = new ArrayList<>();
+    }
+
+    public List<RobotPosition> placeRobots(int p, double r) {
         // Generate initial random points
         for (int i = 0; i < p; i++) {
             /*
-            double x = random.nextDouble() * n;
-            double y = random.nextDouble() * n;
+            double x = random.nextDouble();
+            double y = random.nextDouble();
             rPositionList.add(new RobotPosition(i, x, y));
             System.out.println("R" + i + "=(" + x + "," + y + ")");
             */
@@ -56,15 +60,13 @@ public class VoronoiCoverage {
                             newX += moveX;
                             newY += moveY;
 
-                            System.out.println("R" + robot.robotId + " CHANGED --> (" + newX + "," + newY + ")");
+//                            System.out.println("R" + robot.robotId + " CHANGED --> (" + newX + "," + newY + ")");
                             changed = true;
                             count++;
                         }
                     }
                 }
                 // Update robot position
-//                robot.x = Math.round(newX) % n;
-//                robot.y = Math.round(newY) % n;
                 robot.x = Math.round(newX);
                 robot.y = Math.round(newY);
             }
