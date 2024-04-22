@@ -17,3 +17,9 @@ New alg used for the movements of robots
 
 MappingRobotAlg4:
 New alg. works fine
+
+MappingRobotAlg5:
+
+
+MappingRobotAlg6:
+Proximity sensor range reduced. Corrected the alg. accordingly.

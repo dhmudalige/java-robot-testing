@@ -14,6 +14,8 @@ import Robots.samples.MappingRobotAlg2;
 import Robots.samples.MappingRobotAlg3;
 import Robots.samples.MappingRobotAlg4;
 import Robots.samples.MappingRobotAlg5;
+import Robots.samples.MappingRobotAlg6;
+import Robots.samples.MappingRobotFrontierBased1;
 import Robots.samples.MappingRobotRandomMoving1;
 import Robots.samples.MappingRobotRandomMoving2;
 import Robots.samples.MappingRobotRandomMoving3;
@@ -59,19 +61,22 @@ public class App {
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
 
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, -81, -81, 90);
-            // new Thread(robot).start();
+            // Start a single robot
+            Robot robot = new MappingRobotFrontierBased1(10, 27, 27, 90);
+            new Thread(robot).start();
+
+            Robot robot1 = new MappingRobotFrontierBased1(11, -27, -27, 90);
+            new Thread(robot1).start();
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            Robot robot = new MappingRobotAlg5(10, -81, -81, 90);
-            new Thread(robot).start();
+            // Robot robot = new MappingRobotAlg6(10, -81, -81, 90);
+            // new Thread(robot).start();
 
-            Robot robot1 = new MappingRobotAlg5(9, 63, 63, 90);
-            new Thread(robot1).start();
+            // Robot robot1 = new MappingRobotAlg6(9, 63, 63, 90);
+            // new Thread(robot1).start();
 
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
