@@ -50,6 +50,8 @@ public class VoronoiCoverageTest {
             System.out.println("IO Error !!!");
         }
 
+        long startTime = System.currentTimeMillis(); // Get the start time in milliseconds
+
         // Start a robot swarm
         VoronoiCoverage vc = new VoronoiCoverage();
         List<RobotPosition> rPositions = vc.placeRobots(ROBOTS_COUNT, COVERAGE_RADIUS);
@@ -82,6 +84,15 @@ public class VoronoiCoverageTest {
                         startHeading + delta);
                 new Thread(vr[i]).start();
             }*/
+
+        long endTime = System.currentTimeMillis(); // Get the end time in milliseconds
+
+        long executionTime = endTime - startTime; // Calculate the execution time
+
+        System.out.println("##################################################");
+        System.out.println("Execution Time: " + executionTime + " milliseconds");
+        System.out.println("##################################################");
+
     }
 
 }

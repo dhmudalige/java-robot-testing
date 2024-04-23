@@ -9,7 +9,7 @@ public class SampleRobot extends VirtualRobot {
     }
 
     public void setup() {
-        System.out.println("My Test Robot");
+//        System.out.println("My Test Robot");
         super.setup();
     }
 
@@ -17,13 +17,13 @@ public class SampleRobot extends VirtualRobot {
         super.loop();
         delay(500);
         if (state == robotState.RUN) {
-            System.out.println("Run");
+//            System.out.println("Run");
 
         } else if (state == robotState.WAIT) {
-            System.out.println("Waiting");
+//            System.out.println("Waiting");
 
         } else if (state == robotState.BEGIN) {
-            System.out.println("Begin");
+//            System.out.println("Begin");
 
         }
     }
