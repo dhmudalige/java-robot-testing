@@ -22,7 +22,7 @@ public class VoronoiCoverageTest {
     public static final double COVERAGE_RADIUS = 54.0;
 
     public static void main(String[] args) {
-
+        long setupStartTime = System.currentTimeMillis();
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -49,12 +49,24 @@ public class VoronoiCoverageTest {
             // I/O error
             System.out.println("IO Error !!!");
         }
-
-        long startTime = System.currentTimeMillis(); // Get the start time in milliseconds
+        long setupEndTime = System.currentTimeMillis();
+        System.out.println("##################################################");
+        System.out.println("Project Setup Time: " + (setupEndTime - setupStartTime) + " milliseconds");
+        System.out.println("##################################################");
 
         // Start a robot swarm
         VoronoiCoverage vc = new VoronoiCoverage();
+
+
+        long voronoiStartTime = System.currentTimeMillis();
+
         List<RobotPosition> rPositions = vc.placeRobots(ROBOTS_COUNT, COVERAGE_RADIUS);
+
+        long voronoiEndTime = System.currentTimeMillis();
+
+        System.out.println("##################################################");
+        System.out.println("Voronoi Coverage Process Time: " + (voronoiEndTime - voronoiStartTime) + " milliseconds");
+        System.out.println("##################################################");
 
         int startX = 0, startY = 0, startHeading = 90;
 
@@ -62,6 +74,7 @@ public class VoronoiCoverageTest {
         Random delta = new Random();
 //            Random random = new Random();
 
+        long swarmCreationStartTime = System.currentTimeMillis();
         for (int i = 0; i < ROBOTS_COUNT; i++) {
             RobotPosition p = rPositions.get(i);
 
@@ -75,6 +88,7 @@ public class VoronoiCoverageTest {
 
             new Thread(vr[i]).start();
         }
+        long swarmCreationEndTime = System.currentTimeMillis();
 
             /*for (int i = 0; i < ROBOTS_COUNT; i++) {
                 int delta = random.nextInt() % 18;
@@ -85,12 +99,13 @@ public class VoronoiCoverageTest {
                 new Thread(vr[i]).start();
             }*/
 
-        long endTime = System.currentTimeMillis(); // Get the end time in milliseconds
+        System.out.println("##################################################");
+        System.out.println("Swarm Creation Time: " + (swarmCreationEndTime - swarmCreationStartTime) + " milliseconds");
+        System.out.println("##################################################");
 
-        long executionTime = endTime - startTime; // Calculate the execution time
 
         System.out.println("##################################################");
-        System.out.println("Execution Time: " + executionTime + " milliseconds");
+        System.out.println("Total Process Execution Time: " + (swarmCreationEndTime - setupStartTime) + " milliseconds");
         System.out.println("##################################################");
 
     }

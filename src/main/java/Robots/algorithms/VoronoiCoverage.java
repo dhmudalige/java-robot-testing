@@ -70,7 +70,7 @@ public class VoronoiCoverage {
                 robot.x = Math.round(newX);
                 robot.y = Math.round(newY);
             }
-        } while (changed && (count > 500));
+        } while (changed && (count > 1000));
 
         return rPositionList;
     }
