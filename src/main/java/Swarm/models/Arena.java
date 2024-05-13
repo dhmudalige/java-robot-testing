@@ -7,7 +7,8 @@ import java.util.Properties;
 
 public class Arena {
     Properties props;
-    File configFile = new File("src/resources/arena/default_arena.properties");
+    //    File configFile = new File("src/resources/arena/default_arena.properties");
+    File configFile = new File("arena/default_arena.properties");
     FileReader reader;
 
     public double gridSpace;

@@ -29,7 +29,8 @@ public class VoronoiCoverageTest {
             // If it isn't there, please make one, as given sample in the
             // 'sample_mqtt.properties' file
 
-            File configFile = new File("src/resources/config/mqtt.properties");
+//            File configFile = new File("src/resources/config/mqtt.properties");
+            File configFile = new File("config/mqtt.properties");
             FileReader reader = new FileReader(configFile);
             Properties props = new Properties();
             props.load(reader);
@@ -43,7 +44,7 @@ public class VoronoiCoverageTest {
 
         } catch (FileNotFoundException ex) {
             // file does not exist
-            System.out.println("File Not Found !!!");
+            System.out.println("<VoronoiCoverageTest> File Not Found !!!");
 
         } catch (IOException ex) {
             // I/O error
