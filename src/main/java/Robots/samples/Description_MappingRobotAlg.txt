@@ -23,3 +23,9 @@ MappingRobotAlg5:
 
 MappingRobotAlg6:
 Proximity sensor range reduced. Corrected the alg. accordingly.
+
+MappingRobotAlg7
+PROXIMITY_BACK added
+
+MappingRobotAlg8
+after 30 steps reset free cells
