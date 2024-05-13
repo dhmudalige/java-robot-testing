@@ -2,7 +2,7 @@ package Robots.samples;
 
 import swarm.robot.VirtualRobot;
 
-public class MappingRobotAlg5 extends VirtualRobot {
+public class MappingRobotAlg6 extends VirtualRobot {
     
     // Size of a grid cell
     private final double GRID_SPACE = 18.000;
@@ -33,7 +33,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
     int cellValue = 0;
     int[] cellValuesNESW = new int[4];
 
-    public MappingRobotAlg5(int id, double x, double y, double heading) {
+    public MappingRobotAlg6(int id, double x, double y, double heading) {
         super(id, x, y, heading);
         robotRow=(x+81)/18;
         robotCol=(y+81)/18;
@@ -177,8 +177,8 @@ public class MappingRobotAlg5 extends VirtualRobot {
             for (int i = 0; i < occupancyGrid.length; i++) {
                 for (int j = 0; j < occupancyGrid[i].length; j++) {
                     if (occupancyGrid[i][j] == -2) {
-                        occupancyGrid[i][j] = cellValue+5;   // worked for 1 robot
-                        // occupancyGrid[i][j] = cellValue+2;
+                        // occupancyGrid[i][j] = cellValue+5;   // worked for 1 robot
+                        occupancyGrid[i][j] = cellValue+2;
                     }
                 }
             }
@@ -202,18 +202,12 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol+(i)] += 1;
                             count++;
                         }
-                        if (rCol+(count)+1<numCols && occupancyGrid[rRow][rCol+(count)] == 0) {
-                            occupancyGrid[rRow][rCol+(count)] = -1;
-                        }
                         break;
                     case 1: // Facing east
                         count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             occupancyGrid[rRow+i][rCol] += 1;
                             count++;
-                        }
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol]  == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
                         }
                         break;
                     case 2: // Facing south
@@ -222,18 +216,12 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol-(i)] += 1;
                             count++;
                         }
-                        if (rCol-(count)>0 && occupancyGrid[rRow][rCol-(count)] == 0) {
-                            occupancyGrid[rRow][rCol-(count)] = -1;
-                        }
                         break;
                     case 3: // Facing west
                         count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             occupancyGrid[rRow-i][rCol] += 1;
                             count++;
-                        }
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
                         }
                         break;
                 } 
@@ -275,9 +263,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow-i][rCol] += 1;
                             count++;
                         }
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
-                        }
                         break;
                     case 1: // Facing east
                         count=0;
@@ -285,9 +270,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol+i] += 1;
                             count++;
                         }                        
-                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
-                            occupancyGrid[rRow][rCol+count] = -1;
-                        }
                         break;
                     case 2: // Facing south
                         count=0;
@@ -295,9 +277,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow+i][rCol] += 1;
                             count++;
                         }       
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
-                        }
                         break;
                     case 3: // Facing west
                         count=0;
@@ -305,9 +284,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol-i] += 1;
                             count++;
                         }       
-                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
-                            occupancyGrid[rRow][rCol-count] = -1;
-                        }
                         break;
                 } 
             } 
@@ -351,9 +327,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol-i] += 1;
                             count++;
                         }       
-                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
-                            occupancyGrid[rRow][rCol-count] = -1;
-                        }
                         break;
                     case 1: // Facing east
                         count=0;
@@ -361,9 +334,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow-i][rCol] += 1;
                             count++;
                         }       
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
-                        }
                         break;
                     case 2: // Facing south
                         count=0;
@@ -371,9 +341,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow][rCol+i] += 1;
                             count++;
                         }       
-                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
-                            occupancyGrid[rRow][rCol+count] = -1;
-                        }
                         break;
                     case 3: // Facing west
                         count=0;
@@ -381,9 +348,6 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             occupancyGrid[rRow+i][rCol] += 1;
                             count++;
                         }       
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
-                        }
                         break;
                 } 
             } 

@@ -2,7 +2,7 @@ package Robots.samples;
 
 import swarm.robot.VirtualRobot;
 
-public class MappingRobotAlg5 extends VirtualRobot {
+public class MappingRobotFrontierBased1 extends VirtualRobot {
     
     // Size of a grid cell
     private final double GRID_SPACE = 18.000;
@@ -30,10 +30,9 @@ public class MappingRobotAlg5 extends VirtualRobot {
     double robotRow = 0;
     double robotCol = 0;
     int robotId = 0;
-    int cellValue = 0;
-    int[] cellValuesNESW = new int[4];
 
-    public MappingRobotAlg5(int id, double x, double y, double heading) {
+
+    public MappingRobotFrontierBased1(int id, double x, double y, double heading) {
         super(id, x, y, heading);
         robotRow=(x+81)/18;
         robotCol=(y+81)/18;
@@ -114,17 +113,52 @@ public class MappingRobotAlg5 extends VirtualRobot {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (arr1[i][j]==-1 || arr2[i][j]==-1){
-                    mergedMap[i][j]=-1;
-                } else if (arr1[i][j]==-2 || arr2[i][j]==-2){
-                    mergedMap[i][j]=-2;
-                } else {
-                    mergedMap[i][j] = Math.max(arr1[i][j], arr2[i][j]);
-                }
+                mergedMap[i][j] = Math.max(arr1[i][j], arr2[i][j]);
             }
         }
         return mergedMap;
     }    
+
+    
+    public static int[] getCoordinatesForIteration(int[][] array, int row, int col) {
+        int[] coordinates = new int[2];
+
+        loopBreak:
+        for (int n=1; n<=10; n++){
+            for (int i = -n; i <= n; i++) {
+                for (int j = -n; j <= n; j++) {
+                    if (Math.abs(i) + Math.abs(j) == n) {
+                        coordinates[0] = i;
+                        coordinates[1] = j;
+    
+                        //System.out.println(array[row+i][col+j]);
+                        
+                        if (row+i >= 0 && row+i < array.length && col+j >= 0 && col+j < array[0].length) {
+                            if (array[row+i][col+j] == 0){
+                                break loopBreak;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return coordinates;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void setup() {
         System.out.println("My Test Robot Started");
@@ -147,7 +181,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
         rCol = (int)robotCol;
 
         // Mark the starting cell as visited
-        occupancyGrid[rRow][rCol] = -2;
+        occupancyGrid[rRow][rCol] = 3;
 
         printArray(occupancyGrid);
     }
@@ -172,13 +206,10 @@ public class MappingRobotAlg5 extends VirtualRobot {
             }
             
 
-            cellValue = occupancyGrid[rRow][rCol];
-            // give a high value to cells robot moved
             for (int i = 0; i < occupancyGrid.length; i++) {
                 for (int j = 0; j < occupancyGrid[i].length; j++) {
-                    if (occupancyGrid[i][j] == -2) {
-                        occupancyGrid[i][j] = cellValue+5;   // worked for 1 robot
-                        // occupancyGrid[i][j] = cellValue+2;
+                    if (occupancyGrid[i][j] == 3) {
+                        occupancyGrid[i][j] = 1;
                     }
                 }
             }
@@ -196,44 +227,36 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
                             // System.out.println(i);
-                            occupancyGrid[rRow][rCol+(i)] += 1;
-                            count++;
+                            occupancyGrid[rRow][rCol+(i)] = 1;
                         }
-                        if (rCol+(count)+1<numCols && occupancyGrid[rRow][rCol+(count)] == 0) {
-                            occupancyGrid[rRow][rCol+(count)] = -1;
+                        if (d[PROXIMITY_RIGHT]==21 && rCol+2<occupancyGrid[0].length){
+                            occupancyGrid[rRow][rCol+2] = 2;
                         }
                         break;
                     case 1: // Facing east
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow+i][rCol] += 1;
-                            count++;
+                            occupancyGrid[rRow+i][rCol] = 1;
                         }
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol]  == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
+                        if (d[PROXIMITY_RIGHT]==21 && rRow+2<occupancyGrid.length){
+                            occupancyGrid[rRow+2][rCol] = 2;
                         }
                         break;
                     case 2: // Facing south
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow][rCol-(i)] += 1;
-                            count++;
+                            occupancyGrid[rRow][rCol-(i)] = 1;
                         }
-                        if (rCol-(count)>0 && occupancyGrid[rRow][rCol-(count)] == 0) {
-                            occupancyGrid[rRow][rCol-(count)] = -1;
+                        if (d[PROXIMITY_RIGHT]==21 && rCol-2>0){
+                            occupancyGrid[rRow][rCol-2] = 2;
                         }
                         break;
                     case 3: // Facing west
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow-i][rCol] += 1;
-                            count++;
+                            occupancyGrid[rRow-i][rCol] = 1;
                         }
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
+                        if (d[PROXIMITY_RIGHT]==21 && rRow-2>0){
+                            occupancyGrid[rRow-2][rCol] = 2;
                         }
                         break;
                 } 
@@ -243,22 +266,22 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 switch (direction) {
                     case 0: // Facing north
                         if (rCol != numCols-1 && occupancyGrid[rRow][rCol+1] == 0){
-                            occupancyGrid[rRow][rCol+1] = -1;
+                            occupancyGrid[rRow][rCol+1] = 2;
                         }
                         break;
                     case 1: // Facing east
                         if ((int)robotRow != 0 && occupancyGrid[rRow+1][rCol] == 0){
-                            occupancyGrid[rRow+1][rCol] = -1;
+                            occupancyGrid[rRow+1][rCol] = 2;
                         }
                         break;
                     case 2: // Facing south
                         if (rCol != 0 && occupancyGrid[rRow][rCol-1] == 0){
-                            occupancyGrid[rRow][rCol-1] = -1;
+                            occupancyGrid[rRow][rCol-1] = 2;
                         }
                         break;
                     case 3: // Facing west
                         if ((int)robotRow != numRows-1 && occupancyGrid[rRow-1][rCol] == 0){
-                            occupancyGrid[rRow-1][rCol] = -1;
+                            occupancyGrid[rRow-1][rCol] = 2;
                         }
                         break;
                 } 
@@ -270,44 +293,36 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
                         for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow-i][rCol] += 1;
-                            count++;
+                            occupancyGrid[rRow-i][rCol] = 1;
                         }
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
+                        if (d[PROXIMITY_FRONT]==21 && rRow-2>0){
+                            occupancyGrid[rRow-2][rCol] = 2;
                         }
                         break;
                     case 1: // Facing east
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow][rCol+i] += 1;
-                            count++;
-                        }                        
-                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
-                            occupancyGrid[rRow][rCol+count] = -1;
-                        }
+                            occupancyGrid[rRow][rCol+i] = 1;
+                        } 
+                        if (d[PROXIMITY_FRONT]==21 && rCol+2<occupancyGrid[0].length){
+                            occupancyGrid[rRow][rCol+2] = 2;
+                        }                       
                         break;
                     case 2: // Facing south
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow+i][rCol] += 1;
-                            count++;
+                            occupancyGrid[rRow+i][rCol] = 1;
+                        }   
+                        if (d[PROXIMITY_FRONT]==21 && rRow+2<occupancyGrid.length){
+                            occupancyGrid[rRow+2][rCol] = 2;
                         }       
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
-                        }
                         break;
                     case 3: // Facing west
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow][rCol-i] += 1;
-                            count++;
-                        }       
-                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
-                            occupancyGrid[rRow][rCol-count] = -1;
-                        }
+                            occupancyGrid[rRow][rCol-i] = 1;
+                        }     
+                        if (d[PROXIMITY_FRONT]==21 && rCol-2>0){
+                            occupancyGrid[rRow][rCol-2] = 2;
+                        }   
                         break;
                 } 
             } 
@@ -316,22 +331,22 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 switch (direction) {
                     case 0: // Facing north
                         if ((int)robotRow != numRows-1 && occupancyGrid[rRow-1][rCol] == 0){
-                            occupancyGrid[rRow-1][rCol] = -1;
+                            occupancyGrid[rRow-1][rCol] = 2;
                         }
                         break;
                     case 1: // Facing east
                         if (rCol != numCols-1 && occupancyGrid[rRow][rCol+1] == 0){
-                            occupancyGrid[rRow][rCol+1] = -1;
+                            occupancyGrid[rRow][rCol+1] = 2;
                         }
                         break;
                     case 2: // Facing south
                         if ((int)robotRow != 0 && occupancyGrid[rRow+1][rCol] == 0){
-                            occupancyGrid[rRow+1][rCol] = -1;
+                            occupancyGrid[rRow+1][rCol] = 2;
                         }
                         break;
                     case 3: // Facing west
                         if (rCol != 0 && occupancyGrid[rRow][rCol-1] == 0){
-                            occupancyGrid[rRow][rCol-1] = -1;
+                            occupancyGrid[rRow][rCol-1] = 2;
                         }
                         break;
                 } 
@@ -346,44 +361,36 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 // Mark free spaces
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
                         for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow][rCol-i] += 1;
-                            count++;
-                        }       
-                        if (rCol-count>0 && occupancyGrid[rRow][rCol-count] == 0) {
-                            occupancyGrid[rRow][rCol-count] = -1;
-                        }
+                            occupancyGrid[rRow][rCol-i] = 1;
+                        }  
+                        if (d[PROXIMITY_LEFT]==21 && rCol-2>0){
+                            occupancyGrid[rRow][rCol-2] = 2;
+                        }        
                         break;
                     case 1: // Facing east
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow-i][rCol] += 1;
-                            count++;
+                            occupancyGrid[rRow-i][rCol] = 1;
                         }       
-                        if (rRow-count>0 && occupancyGrid[rRow-count][rCol] == 0) {
-                            occupancyGrid[rRow-count][rCol] = -1;
-                        }
+                        if (d[PROXIMITY_LEFT]==21 && rRow-2>0){
+                            occupancyGrid[rRow-2][rCol] = 2;
+                        }   
                         break;
                     case 2: // Facing south
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow][rCol+i] += 1;
-                            count++;
-                        }       
-                        if (rCol+count<numCols && occupancyGrid[rRow][rCol+count] == 0) {
-                            occupancyGrid[rRow][rCol+count] = -1;
-                        }
+                            occupancyGrid[rRow][rCol+i] = 1;
+                        }  
+                        if (d[PROXIMITY_LEFT]==21 && rCol+2<occupancyGrid[0].length){
+                            occupancyGrid[rRow][rCol+2] = 2;
+                        }        
                         break;
                     case 3: // Facing west
-                        count=0;
                         for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[rRow+i][rCol] += 1;
-                            count++;
-                        }       
-                        if (rRow+count<numRows && occupancyGrid[rRow+count][rCol] == 0) {
-                            occupancyGrid[rRow+count][rCol] = -1;
+                            occupancyGrid[rRow+i][rCol] = 1;
                         }
+                        if (d[PROXIMITY_LEFT]==21 && rRow+2<occupancyGrid.length){
+                            occupancyGrid[rRow+2][rCol] = 2;
+                        }        
                         break;
                 } 
             } 
@@ -392,22 +399,22 @@ public class MappingRobotAlg5 extends VirtualRobot {
                 switch (direction) {
                     case 0: // Facing north
                         if (rCol != 0 && occupancyGrid[rRow][rCol-1] == 0){
-                            occupancyGrid[rRow][rCol-1] = -1;
+                            occupancyGrid[rRow][rCol-1] = 2;
                         }
                         break;
                     case 1: // Facing east
                         if ((int)robotRow != numRows-1 && occupancyGrid[rRow-1][rCol] == 0){
-                            occupancyGrid[rRow-1][rCol] = -1;
+                            occupancyGrid[rRow-1][rCol] = 2;
                         }
                         break;
                     case 2: // Facing south
                         if (rCol != numCols-1 && occupancyGrid[rRow][rCol+1] == 0){
-                            occupancyGrid[rRow][rCol+1] = -1;
+                            occupancyGrid[rRow][rCol+1] = 2;
                         }
                         break;
                     case 3: // Facing west
                         if ((int)robotRow != 0 && occupancyGrid[rRow+1][rCol] == 0){
-                            occupancyGrid[rRow+1][rCol] = -1;
+                            occupancyGrid[rRow+1][rCol] = 2;
                         }
                         break;
                 } 
@@ -417,51 +424,37 @@ public class MappingRobotAlg5 extends VirtualRobot {
             // end: mark explored cells and obstacles ----------------------------------------------------------------------
 
 
+            int[] coordinates = getCoordinatesForIteration(occupancyGrid, rRow, rCol);
+            System.out.println(-coordinates[0] + "," + coordinates[1]);
 
+            int moveVal=0;
 
-
-
-            // start: get the min cellValue (finding the cell the robot should move in the next step)----------------------------------------------------------------------
-            if (rRow!=0){
-                cellValuesNESW[0]=occupancyGrid[rRow-1][rCol];
-                // System.out.println(occupancyGrid[rRow-1][rCol]);
-            } else {
-                cellValuesNESW[0]=-1;  // obstacle
+            if (coordinates[0] < 0){
+                moveVal=0;
+            } else if (coordinates[0] > 0){
+                moveVal=2;
+            } else if (coordinates[1] < 0){
+                moveVal=3;
+            } else if (coordinates[1] > 0){
+                moveVal=1;
             }
 
-            if (rCol!=numCols-1){
-                cellValuesNESW[1]=occupancyGrid[rRow][rCol+1];
-            } else {
-                cellValuesNESW[1]=-1;  // obstacle
-            }
 
-            if (rRow!=numRows-1){
-                cellValuesNESW[2]=occupancyGrid[rRow+1][rCol];
-            } else {
-                cellValuesNESW[2]=-1;  // obstacle
-            }
-
-            if (rCol!=0){
-                cellValuesNESW[3]=occupancyGrid[rRow][rCol-1];
-            } else {
-                cellValuesNESW[3]=-1;  // obstacle
-            }
-
-            int minCellValue = Integer.MAX_VALUE; // Initialize with a very large value
-            int minCellValueIndex =0;
-
-            for (int i = 0; i < cellValuesNESW.length; i++) {
-                // System.out.println(cellValuesNESW[i]);
-                if (cellValuesNESW[i] >= 0 && cellValuesNESW[i] < minCellValue) {
-                    minCellValue = cellValuesNESW[i];
-                    minCellValueIndex = i;
-                }
-            }
-            // System.out.println(minCellValue + " " + minCellValueIndex);
-
-            // end: get the min cellValue (finding the cell the robot should move in the next step)----------------------------------------------------------------------
-
-
+            // // Move based on the calculated direction
+            // switch (direction) {
+            //     case 0: // Facing north
+            //         robotRow++;
+            //         break;
+            //     case 1: // Facing east
+            //         robotCol++;
+            //         break;
+            //     case 2: // Facing south
+            //         robotRow--;
+            //         break;
+            //     case 3: // Facing west
+            //         robotCol--;
+            //         break;
+            // }    
 
 
 
@@ -471,7 +464,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
             // Move based on the calculated direction
             switch (direction) {
                 case 0: // Facing north
-                    switch (minCellValueIndex) {
+                    switch (moveVal) {
                         case 0: // north
                             robotRow++;
                             break;
@@ -493,7 +486,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
                     }
                     break;
                 case 1: // Facing east
-                    switch (minCellValueIndex) {
+                    switch (moveVal) {
                         case 0: // north
                             motion.rotateDegree(defaultRotateSpeed, -90);
                             leftTurns++;
@@ -515,7 +508,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
                     }
                     break;
                 case 2: // Facing south
-                    switch (minCellValueIndex) {
+                    switch (moveVal) {
                         case 0: // north
                             motion.rotateDegree(defaultRotateSpeed, 180);
                             rightTurns++;rightTurns++;
@@ -537,7 +530,7 @@ public class MappingRobotAlg5 extends VirtualRobot {
                     }
                     break;
                 case 3: // Facing west
-                    switch (minCellValueIndex) {
+                    switch (moveVal) {
                         case 0: // north
                             motion.rotateDegree(defaultRotateSpeed, 90);
                             rightTurns++;
@@ -558,7 +551,11 @@ public class MappingRobotAlg5 extends VirtualRobot {
                             break;
                     }
                     break;
-            } 
+            }
+
+
+
+
 
 
             // Robot move
@@ -566,13 +563,10 @@ public class MappingRobotAlg5 extends VirtualRobot {
             delay(1000);
 
 
-
-
             rRow = numRows-1-(int)robotRow;
             rCol = (int)robotCol;
 
-            cellValue = occupancyGrid[rRow][rCol];
-            occupancyGrid[rRow][rCol] = -2;
+            occupancyGrid[rRow][rCol] = 3;
             
    
             // printArray(occupancyGrid);
