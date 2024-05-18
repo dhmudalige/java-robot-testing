@@ -40,7 +40,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-
+        long setupStartTime = System.currentTimeMillis();
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -86,11 +86,17 @@ public class App {
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            Robot robot = new MappingRobotAlg7(10, -81, -81, 90);
-            new Thread(robot).start();
-
             Robot robot1 = new MappingRobotAlg7(9, 63, 63, 90);
             new Thread(robot1).start();
+
+            Robot robot2 = new MappingRobotAlg7(10, -81, -81, 90);
+            new Thread(robot2).start();
+
+            Robot robot3 = new MappingRobotAlg7(10, -81, -81, 90);
+            new Thread(robot3).start();
+
+            Robot robot4 = new MappingRobotAlg7(10, -81, -81, 90);
+            new Thread(robot4).start();
 
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
@@ -154,6 +160,15 @@ public class App {
             // }
 
             //--------------Nuwan aiya swarm code
+
+            long setupEndTime = System.currentTimeMillis();
+
+            // Register the shutdown hook
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.out.println("Process was terminated by the user");
+                System.out.println("Total Execution Time: " + (setupEndTime - setupStartTime));
+
+            }));
 
         } catch (FileNotFoundException ex) {
             // file does not exist
