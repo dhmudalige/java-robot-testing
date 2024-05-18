@@ -62,11 +62,17 @@ public class App {
             // new Thread(robot).start();
 
             // Start a single robot
-            Robot robot = new MappingRobotFrontierBased1(10, 27, 27, 90);
-            new Thread(robot).start();
-
-            Robot robot1 = new MappingRobotFrontierBased1(11, -27, -27, 90);
+            Robot robot1 = new MappingRobotFrontierBased1(10, 27, 27, 90);
             new Thread(robot1).start();
+
+//            Robot robot2 = new MappingRobotFrontierBased1(11, -27, -27, 90);
+//            new Thread(robot2).start();
+//
+//            Robot robot3 = new MappingRobotFrontierBased1(12, -27, 27, -90);
+//            new Thread(robot3).start();
+//
+//            Robot robot4 = new MappingRobotFrontierBased1(13, 27, -27, -90);
+//            new Thread(robot4).start();
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
