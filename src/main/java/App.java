@@ -38,7 +38,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-
+        long setupStartTime = System.currentTimeMillis();
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -120,35 +120,31 @@ public class App {
             // new Thread(robot2).start();   
             
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
-            
 
-            //--------------Nuwan aiya swarm code
+            long setupEndTime = System.currentTimeMillis();
 
-            // // Start a swarm of robots
-            // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            // Register the shutdown hook
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.out.println("Process was terminated by the user");
+                System.out.println("Total Execution Time: " + (setupEndTime - setupStartTime));
 
-            // int startX = 0;
-            // int startY = 0;
-            // int startHeading = 90;
-
-            // Robot[] vr = new VirtualRobot[robotList.length];
-
-            // for (int i = 0; i < robotList.length; i++) {
-            // vr[i] = new SampleRobot(robotList[i], startX + 40 * i, startY + 50 * i,
-            // startHeading + 10 * i);
-            // new Thread(vr[i]).start();
-            // }
-
-            //--------------Nuwan aiya swarm code
+            }));
 
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File Not Found !!!");
 
-        } catch (IOException ex) {
+        } catch (IOException ioe) {
             // I/O error
             System.out.println("IO Error !!!");
         }
+//        } catch (InterruptedException ie) {
+//            // Handle termination exception
+//            Thread.currentThread().interrupt(); // Preserve interrupted status
+//        } catch (ThreadDeath e) {
+//            // Handle thread death
+//            System.out.println("Thread Dead");
+//        }
     }
 
 }
