@@ -15,11 +15,13 @@ import Robots.samples.MappingRobotAlg3;
 import Robots.samples.MappingRobotAlg4;
 import Robots.samples.MappingRobotAlg5;
 import Robots.samples.MappingRobotAlg6;
+import Robots.samples.MappingRobotAlg7;
 import Robots.samples.MappingRobotFrontierBased1;
 import Robots.samples.MappingRobotRandomMoving1;
 import Robots.samples.MappingRobotRandomMoving2;
 import Robots.samples.MappingRobotRandomMoving3;
 import Robots.samples.MappingRobotRandomMoving4;
+import Robots.samples.MappingRobotRandomMoving5;
 import Robots.samples.MazeFollowingRobot;
 import Robots.samples.ObstacleAvoidRobot;
 import Robots.samples.SampleRobot;
@@ -38,7 +40,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        long setupStartTime = System.currentTimeMillis();
+
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -62,27 +64,33 @@ public class App {
             // new Thread(robot).start();
 
             // Start a single robot
-            Robot robot1 = new MappingRobotFrontierBased1(10, 27, 27, 90);
-            new Thread(robot1).start();
+            // Robot robot = new MappingRobotRandomMoving5(10, -81, -81, 90);
+            // new Thread(robot).start();
 
-//            Robot robot2 = new MappingRobotFrontierBased1(11, -27, -27, 90);
-//            new Thread(robot2).start();
-//
-//            Robot robot3 = new MappingRobotFrontierBased1(12, -27, 27, -90);
-//            new Thread(robot3).start();
-//
-//            Robot robot4 = new MappingRobotFrontierBased1(13, 27, -27, -90);
-//            new Thread(robot4).start();
+            // Robot robot1 = new MappingRobotRandomMoving5(11, 81, 81, 90);
+            // new Thread(robot1).start();
+
+            // Robot robot2 = new MappingRobotRandomMoving5(12, 81, -81, 90);
+            // new Thread(robot2).start();
+
+
+
+            // Start a single robot
+            // Robot robot = new MappingRobotFrontierBased1(10, 27, 27, 90);
+            // new Thread(robot).start();
+
+            // Robot robot1 = new MappingRobotFrontierBased1(11, -27, -27, 90);
+            // new Thread(robot1).start();
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
             // new Thread(robot).start();
 
-            // Robot robot = new MappingRobotAlg6(10, -81, -81, 90);
-            // new Thread(robot).start();
+            Robot robot = new MappingRobotAlg7(10, -81, -81, 90);
+            new Thread(robot).start();
 
-            // Robot robot1 = new MappingRobotAlg6(9, 63, 63, 90);
-            // new Thread(robot1).start();
+            Robot robot1 = new MappingRobotAlg7(9, 63, 63, 90);
+            new Thread(robot1).start();
 
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
@@ -126,31 +134,35 @@ public class App {
             // new Thread(robot2).start();   
             
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
+            
 
-            long setupEndTime = System.currentTimeMillis();
+            //--------------Nuwan aiya swarm code
 
-            // Register the shutdown hook
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                System.out.println("Process was terminated by the user");
-                System.out.println("Total Execution Time: " + (setupEndTime - setupStartTime));
+            // // Start a swarm of robots
+            // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            }));
+            // int startX = 0;
+            // int startY = 0;
+            // int startHeading = 90;
+
+            // Robot[] vr = new VirtualRobot[robotList.length];
+
+            // for (int i = 0; i < robotList.length; i++) {
+            // vr[i] = new SampleRobot(robotList[i], startX + 40 * i, startY + 50 * i,
+            // startHeading + 10 * i);
+            // new Thread(vr[i]).start();
+            // }
+
+            //--------------Nuwan aiya swarm code
 
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File Not Found !!!");
 
-        } catch (IOException ioe) {
+        } catch (IOException ex) {
             // I/O error
             System.out.println("IO Error !!!");
         }
-//        } catch (InterruptedException ie) {
-//            // Handle termination exception
-//            Thread.currentThread().interrupt(); // Preserve interrupted status
-//        } catch (ThreadDeath e) {
-//            // Handle thread death
-//            System.out.println("Thread Dead");
-//        }
     }
 
 }
