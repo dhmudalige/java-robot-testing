@@ -7,7 +7,7 @@ import java.util.Random;
 public class MappingRobotRandomMoving5 extends VirtualRobot {
     
     // Size of a grid cell
-    private final double GRID_SPACE = 18.000;
+    private final double GRID_SPACE = 10.000;
 
     // The default movement speed
     private final int defaultMoveSpeed = 200;
@@ -35,13 +35,13 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
 
     public MappingRobotRandomMoving5(int id, double x, double y, double heading) {
         super(id, x, y, heading);
-        robotRow=(x+81)/18;
-        robotCol=(y+81)/18;
+        robotRow=(x+81)/10;
+        robotCol=(y+81)/10;
         robotId=id;
     }
 
-    int numRows=10;
-    int numCols=10;
+    int numRows=60;
+    int numCols=60;
     int[][] occupancyGrid = new int[numRows][numCols];
 
     int rightTurns=0;

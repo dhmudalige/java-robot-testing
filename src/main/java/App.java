@@ -25,6 +25,7 @@ import Robots.samples.MappingRobotRandomMoving5;
 import Robots.samples.MazeFollowingRobot;
 import Robots.samples.ObstacleAvoidRobot;
 import Robots.samples.SampleRobot;
+import swarm.robot.VirtualRobot;
 
 import java.util.Random;
 
@@ -56,16 +57,29 @@ public class App {
             MQTTSettings.port = Integer.parseInt(props.getProperty("port", "1883"));
             MQTTSettings.userName = props.getProperty("username");
             MQTTSettings.password = props.getProperty("password");
-            MQTTSettings.channel = props.getProperty("channel", "v1");
+            MQTTSettings.channel = props.getProperty("channel", "v81");
             reader.close();
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
 
-            // Start a single robot
-            // Robot robot = new MappingRobotRandomMoving5(10, -81, -81, 90);
-            // new Thread(robot).start();
+            // // Simple robots
+             Robot robot = new SampleRobot(1, 108, 150, 90);
+             new Thread(robot).start();
+
+             Robot robot2 = new SampleRobot(2, -9, 9, -90);
+             new Thread(robot2).start();
+
+             Robot robot3 = new SampleRobot(3, 72, -270, 90);
+             new Thread(robot3).start();
+
+//             Robot robot4 = new SampleRobot(4, -720, -720, -90);
+//             new Thread(robot4).start();
+
+            // // Random Moving Robots
+//             Robot robot = new MappingRobotRandomMoving5(10, -81, -81, 90);
+//             new Thread(robot).start();
 
             // Robot robot1 = new MappingRobotRandomMoving5(11, 81, 81, 90);
             // new Thread(robot1).start();
@@ -73,30 +87,32 @@ public class App {
             // Robot robot2 = new MappingRobotRandomMoving5(12, 81, -81, 90);
             // new Thread(robot2).start();
 
+            // Nearest Unexplored Cell Approach
+//             Robot robot = new MappingRobotFrontierBased1(10, 0, 0, 90);
+//             new Thread(robot).start();
+
+//             Robot robot1 = new MappingRobotFrontierBased1(11, -27, -27, 90);
+//             new Thread(robot1).start();
+
+//             Robot robot2 = new MappingRobotFrontierBased1(10, -18, 18, 90);
+//             new Thread(robot2).start();
+
+//            Robot robot3 = new MappingRobotFrontierBased1(10, 18, -18, 90);
+//            new Thread(robot3).start();
 
 
-            // Start a single robot
-            // Robot robot = new MappingRobotFrontierBased1(10, 27, 27, 90);
-            // new Thread(robot).start();
+            // Heuristic Approach
+//            Robot robot1 = new MappingRobotAlg7(9, -81, -81, 90);
+//            new Thread(robot1).start();
 
-            // Robot robot1 = new MappingRobotFrontierBased1(11, -27, -27, 90);
-            // new Thread(robot1).start();
+//            Robot robot2 = new MappingRobotAlg7(10, -81, 81, -90);
+//            new Thread(robot2).start();
 
-            // // Start a single robot
-            // Robot robot = new MazeFollowingRobot(10, 27, 27, 90);
-            // new Thread(robot).start();
+//            Robot robot3 = new MappingRobotAlg7(11, 81, -81, 90);
+//            new Thread(robot3).start();
 
-            Robot robot1 = new MappingRobotAlg7(9, 63, 63, 90);
-            new Thread(robot1).start();
-
-            Robot robot2 = new MappingRobotAlg7(10, -81, -81, 90);
-            new Thread(robot2).start();
-
-            Robot robot3 = new MappingRobotAlg7(10, -81, -81, 90);
-            new Thread(robot3).start();
-
-            Robot robot4 = new MappingRobotAlg7(10, -81, -81, 90);
-            new Thread(robot4).start();
+//            Robot robot4 = new MappingRobotAlg7(12, -81, -81, 90);
+//            new Thread(robot4).start();
 
             //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
 
@@ -113,7 +129,7 @@ public class App {
             // };
 
             // int randomHeading, randomX, randomY;
-            
+
             // // robot 1
             // Random random = new Random();
             // randomHeading = random.nextInt(headingDirections.length);
@@ -121,9 +137,9 @@ public class App {
             //     randomX = random.nextInt(x.length);
             //     randomY = random.nextInt(y.length);
             // } while (isObstacle(x[randomX], y[randomY], obstacles));
-    
+
             // System.out.println("Robot1 x:" + x[randomX] + ", y:" + y[randomY] + ", heading:" + headingDirections[randomHeading]);
-    
+
             // Robot robot1 = new MappingRobotRandomMoving4(1, x[randomX], y[randomY], headingDirections[randomHeading]);
             // new Thread(robot1).start();
 
@@ -138,35 +154,48 @@ public class App {
 
             // Robot robot2 = new MappingRobotRandomMoving4(2, x[randomX], y[randomY], headingDirections[randomHeading]);
             // new Thread(robot2).start();   
-            
-            //--------------Mapping with unknown initial positions and heading dirctions with 2 robots
-            
 
-            //--------------Nuwan aiya swarm code
+            //--------------Mapping with unknown initial positions and heading directions with 2 robots
 
-            // // Start a swarm of robots
-            // int[] robotList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-            // int startX = 0;
-            // int startY = 0;
-            // int startHeading = 90;
-
-            // Robot[] vr = new VirtualRobot[robotList.length];
-
-            // for (int i = 0; i < robotList.length; i++) {
-            // vr[i] = new SampleRobot(robotList[i], startX + 40 * i, startY + 50 * i,
-            // startHeading + 10 * i);
-            // new Thread(vr[i]).start();
-            // }
-
-            //--------------Nuwan aiya swarm code
+//
+//            //--------------Swarm of robots
+//            int[] robotList = {0, 1, 2, 3, 4};
+//
+//            Random random = new Random();
+//
+//            int startX = 0;
+//            int startY = 0;
+//            int startHeading = 90;
+//
+//            Robot[] vr = new VirtualRobot[robotList.length];
+//
+//            for (int i = 0; i < robotList.length; i++) {
+//                int sign = (random.nextInt() % 2 == 0) ? 1 : -1;
+////                vr[i] = new SampleRobot(robotList[i], startX + 20 * sign * i, startY + 20 * sign * i, startHeading);
+//
+//                // Random Moving Robots
+////                vr[i] = new MappingRobotRandomMoving5(robotList[i], startX + 20 * sign * i, startY + 20 * sign * i, startHeading);
+//
+////                // Nearest Unexplored Cell Approach
+////                vr[i] = new MappingRobotFrontierBased1(robotList[i], startX + 20 * sign * i, startY + 20 * sign * i, startHeading);
+//
+////                // Heuristic Approach
+////                vr[i] = new MappingRobotAlg7(robotList[i], startX + 40 * i, startY + 50 * i,
+////                        startHeading + 10 * i);
+//
+//                new Thread(vr[i]).start();
+//            }
+//
+//            //--------------Swarm of robots
 
             long setupEndTime = System.currentTimeMillis();
+
+            long setupTime = setupEndTime - setupStartTime;
 
             // Register the shutdown hook
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("Process was terminated by the user");
-                System.out.println("Total Execution Time: " + (setupEndTime - setupStartTime));
+                System.out.println("Total Execution Time: " + setupTime);
 
             }));
 
