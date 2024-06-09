@@ -2,10 +2,7 @@
 import swarm.configs.MQTTSettings;
 import swarm.robot.Robot;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import Robots.samples.MappingRobot;
@@ -29,7 +26,11 @@ import swarm.robot.VirtualRobot;
 
 import java.util.Random;
 
+import static Robots.utils.SwarmUtils.date;
+
 public class App {
+
+    public static final String CSV_PATH = "src/resources/csv-files/";
 
     private static boolean isObstacle(int x, int y, int[][] obstacles) {
         for (int[] pair : obstacles) {
@@ -42,6 +43,7 @@ public class App {
 
     public static void main(String[] args) {
         long setupStartTime = System.currentTimeMillis();
+        
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -59,6 +61,10 @@ public class App {
             MQTTSettings.password = props.getProperty("password");
             MQTTSettings.channel = props.getProperty("channel", "v81");
             reader.close();
+
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_PATH, true));
+            writer.write(date + "\n");
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
