@@ -3,6 +3,8 @@ import swarm.configs.MQTTSettings;
 import swarm.robot.Robot;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import Robots.samples.MappingRobot;
@@ -26,11 +28,11 @@ import swarm.robot.VirtualRobot;
 
 import java.util.Random;
 
-import static Robots.utils.SwarmUtils.date;
+import static Robots.utils.SwarmUtils.*;
 
 public class App {
 
-    public static final String CSV_PATH = "src/resources/csv-files/";
+    public static final String CSV_PATH = "src/resources/csv-files/Swarm-Data.csv";
 
     private static boolean isObstacle(int x, int y, int[][] obstacles) {
         for (int[] pair : obstacles) {
@@ -43,7 +45,13 @@ public class App {
 
     public static void main(String[] args) {
         long setupStartTime = System.currentTimeMillis();
-        
+//        Date currentDate = new Date();
+//
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        // Format the current date
+//        String formattedCurrentDate = dateFormat.format(currentDate);
+
         try {
             // COMPLETE THIS BEFORE RUN
             // Read config properties from the file, src/resources/config/mqtt.properties
@@ -62,30 +70,30 @@ public class App {
             MQTTSettings.channel = props.getProperty("channel", "v81");
             reader.close();
 
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_PATH, true));
-            writer.write(date + "\n");
+//            if (formattedDate.compareTo(formattedCurrentDate) == 0) {
+                printDate(CSV_PATH);
+//            }
 
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
 
             // // Simple robots
-             Robot robot = new SampleRobot(1, 108, 150, 90);
-             new Thread(robot).start();
-
-             Robot robot2 = new SampleRobot(2, -9, 9, -90);
-             new Thread(robot2).start();
-
-             Robot robot3 = new SampleRobot(3, 72, -270, 90);
-             new Thread(robot3).start();
+//             Robot robot = new SampleRobot(1, 108, 150, 90);
+//             new Thread(robot).start();
+//
+//             Robot robot2 = new SampleRobot(2, -9, 9, -90);
+//             new Thread(robot2).start();
+//
+//             Robot robot3 = new SampleRobot(3, 72, -270, 90);
+//             new Thread(robot3).start();
 
 //             Robot robot4 = new SampleRobot(4, -720, -720, -90);
 //             new Thread(robot4).start();
 
-            // // Random Moving Robots
-//             Robot robot = new MappingRobotRandomMoving5(10, -81, -81, 90);
-//             new Thread(robot).start();
+             // Random Moving Robots
+             Robot robot = new MappingRobotRandomMoving5(10, -81, 81, 90);
+             new Thread(robot).start();
 
             // Robot robot1 = new MappingRobotRandomMoving5(11, 81, 81, 90);
             // new Thread(robot1).start();
