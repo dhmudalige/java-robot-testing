@@ -4,11 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static Robots.utils.SwarmUtils.*;
+
 public class CSVRecorder {
     // Write an empty row
-    public static void addHeader(String filePath, String robotType) {
+    public static void addCSVHeader(String filePath, String robotType) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write("ROBOT-TYPE:" + robotType + "\n");
+            writer.write("TIME:" + getTime() + ",ROBOT-TYPE:" + robotType + "\n");
 
             String[] columnNames = {"timestamp", "cycle", "total-time"};
             writer.write(String.join(",", columnNames) + "\n");

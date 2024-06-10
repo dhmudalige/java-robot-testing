@@ -1,10 +1,11 @@
 package Robots.samples;
 
+import Robots.utils.SwarmUtils;
 import swarm.robot.VirtualRobot;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static Robots.utils.CSVRecorder.addHeader;
+import static Robots.utils.CSVRecorder.addCSVHeader;
 import static Robots.utils.CSVRecorder.recordExplorations;
 
 public class MappingRobotRandomMoving5 extends VirtualRobot {
@@ -56,60 +57,6 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
     int rightTurns=0;
     int leftTurns=0;
 
-    public static void printArray(int[][] array) {
-        for (int[] row : array) {
-            for (int element : row) {
-                System.out.print(element + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static String arrayToString(int[][] arr) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                sb.append(arr[i][j]);
-                if (j < arr[i].length - 1) {
-                    sb.append(" "); // Add space between elements in the same row
-                }
-            }
-            if (i < arr.length - 1) {
-                sb.append("\n"); // Add newline between rows
-            }
-        } 
-        return sb.toString();
-    }
-
-    public static int[][] stringToArray(String arrayAsString) {
-        String[] rows = arrayAsString.split("\n");
-        int numRows = rows.length;
-        int[][] array = new int[numRows][];
-        for (int i = 0; i < numRows; i++) {
-            String[] elements = rows[i].split(" ");
-            int numCols = elements.length;
-            array[i] = new int[numCols];
-            for (int j = 0; j < numCols; j++) {
-                array[i][j] = Integer.parseInt(elements[j]);
-            }
-        }
-        return array;
-    }
-
-    public static int[][] getMergedMap(int[][] arr1, int[][] arr2) {
-        int rows = arr1.length;
-        int cols = arr1[0].length;
-
-        int[][] mergedMap = new int[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                mergedMap[i][j] = Math.max(arr1[i][j], arr2[i][j]);
-            }
-        }
-        return mergedMap;
-    }
-
     public void setup() {
         System.out.println("My Test Robot Started");
 
@@ -135,6 +82,7 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
         // System.out.println("Robot ID: " + robotId);
         // printArray(occupancyGrid);
         // System.out.println();
+        addCSVHeader(CSV_PATH, ROBOT_NAME);
     }
 
     public void loop() throws Exception {
@@ -414,7 +362,7 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
             // printArray(occupancyGrid);
             // System.out.println();
 
-            simpleComm.sendMessage(arrayToString(occupancyGrid), 200);
+            simpleComm.sendMessage(SwarmUtils.arrayToString(occupancyGrid), 200);
         }
 
         long endTime = System.currentTimeMillis();
@@ -428,11 +376,11 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
         // System.out.println("Robot ID: " + robotId + " communicationInterrupt on " + id + " with msg:\n" + msg);
         // System.out.println();
 
-        int[][] array = stringToArray(msg);
+        int[][] array = SwarmUtils.stringToArray(msg);
         // printArray(array);
 
-        occupancyGrid = getMergedMap(occupancyGrid, array);
-        printArray(occupancyGrid);
+        occupancyGrid = SwarmUtils.getMergedMap(occupancyGrid, array);
+        SwarmUtils.printArray(occupancyGrid);
         System.out.println();
     }
 }

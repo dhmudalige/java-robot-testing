@@ -3,45 +3,15 @@ import swarm.configs.MQTTSettings;
 import swarm.robot.Robot;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
-import Robots.samples.MappingRobot;
-import Robots.samples.MappingRobot3;
-import Robots.samples.MappingRobotAlg2;
-import Robots.samples.MappingRobotAlg3;
-import Robots.samples.MappingRobotAlg4;
-import Robots.samples.MappingRobotAlg5;
-import Robots.samples.MappingRobotAlg6;
-import Robots.samples.MappingRobotAlg7;
-import Robots.samples.MappingRobotFrontierBased1;
-import Robots.samples.MappingRobotRandomMoving1;
-import Robots.samples.MappingRobotRandomMoving2;
-import Robots.samples.MappingRobotRandomMoving3;
-import Robots.samples.MappingRobotRandomMoving4;
 import Robots.samples.MappingRobotRandomMoving5;
-import Robots.samples.MazeFollowingRobot;
-import Robots.samples.ObstacleAvoidRobot;
-import Robots.samples.SampleRobot;
-import swarm.robot.VirtualRobot;
-
-import java.util.Random;
 
 import static Robots.utils.SwarmUtils.*;
 
 public class App {
 
     public static final String CSV_PATH = "src/resources/csv-files/Swarm-Data.csv";
-
-    private static boolean isObstacle(int x, int y, int[][] obstacles) {
-        for (int[] pair : obstacles) {
-            if (pair[0] == x && pair[1] == y) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static void main(String[] args) {
         long setupStartTime = System.currentTimeMillis();
@@ -70,10 +40,7 @@ public class App {
             MQTTSettings.channel = props.getProperty("channel", "v81");
             reader.close();
 
-//            if (formattedDate.compareTo(formattedCurrentDate) == 0) {
-                printDate(CSV_PATH);
-//            }
-
+            System.out.println("<App> " + getDate() + " \nStarting PeraSwarm....");
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
@@ -91,9 +58,9 @@ public class App {
 //             Robot robot4 = new SampleRobot(4, -720, -720, -90);
 //             new Thread(robot4).start();
 
-             // Random Moving Robots
-             Robot robot = new MappingRobotRandomMoving5(10, -81, 81, 90);
-             new Thread(robot).start();
+            // Random Moving Robots
+            Robot robot = new MappingRobotRandomMoving5(10, -81, -81, 90);
+            new Thread(robot).start();
 
             // Robot robot1 = new MappingRobotRandomMoving5(11, 81, 81, 90);
             // new Thread(robot1).start();
