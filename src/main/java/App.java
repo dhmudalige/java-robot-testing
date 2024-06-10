@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import Robots.samples.MappingRobotRandomMoving5;
 
+import static Robots.utils.CSVRecorder.addEmptyRowToCSV;
 import static Robots.utils.SwarmUtils.*;
 
 public class App {
@@ -40,7 +41,8 @@ public class App {
             MQTTSettings.channel = props.getProperty("channel", "v81");
             reader.close();
 
-            System.out.println("<App> " + getDate() + " \nStarting PeraSwarm....");
+            System.out.println("<PeraSwarm> Starting at " + getDate() + "...");
+            addEmptyRowToCSV(CSV_PATH);
             // // Start a single robot
             // Robot robot = new MazeFollowingRobot(10, 9, 9, 90);
             // new Thread(robot).start();
