@@ -4,8 +4,14 @@ import swarm.robot.VirtualRobot;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static Robots.utils.CSVRecorder.addHeader;
+import static Robots.utils.CSVRecorder.recordExplorations;
+
 public class MappingRobotRandomMoving5 extends VirtualRobot {
-    
+
+    private final String ROBOT_NAME = "<Random Moving Robot>";
+    public static final String CSV_PATH = "src/resources/csv-files/Swarm-Data.csv";
+
     // Size of a grid cell
     private final double GRID_SPACE = 18.000;
 
@@ -32,6 +38,9 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
     double robotRow = 0;
     double robotCol = 0;
     int robotId = 0;
+    int count = 0;
+
+    int loopCount = 0;
 
     public MappingRobotRandomMoving5(int id, double x, double y, double heading) {
         super(id, x, y, heading);
@@ -131,6 +140,10 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
     public void loop() throws Exception {
         super.loop();
 
+        loopCount++;
+
+        long startTime = System.currentTimeMillis();
+
         if (state == robotState.RUN) {
             // Get present distances from robot's left,front and right
             int[] d = proximitySensor.getProximity().distances();
@@ -152,33 +165,34 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
                 // System.out.println(d[PROXIMITY_RIGHT]);
                 
                 // Mark free spaces
+                int proximityRightCheck = (d[PROXIMITY_RIGHT] + 6) / 18;
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
-                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
+                        count = 0;
+                        for (int i = 0; i < proximityRightCheck; i++) {
                             // System.out.println(i);
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+(i)] = 1;
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol + (i)] = 1;
                             count++;
                         }
                         break;
                     case 1: // Facing east
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow-(i))][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityRightCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow - (i))][(int) robotCol] = 1;
                             count++;
                         }
                         break;
                     case 2: // Facing south
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-(i)] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityRightCheck; i++) {
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol - (i)] = 1;
                             count++;
                         }
                         break;
                     case 3: // Facing west
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_RIGHT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow+(i))][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityRightCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow + (i))][(int) robotCol] = 1;
                             count++;
                         }
                         break;
@@ -214,32 +228,33 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
                 intList.add(2);
 
                 // Mark free spaces
+                int proximityFrontCheck = (d[PROXIMITY_FRONT] + 6) / 18;
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
-                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow+i)][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityFrontCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow + i)][(int) robotCol] = 1;
                             count++;
                         }
                         break;
                     case 1: // Facing east
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+i] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityFrontCheck; i++) {
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol + i] = 1;
                             count++;
-                        }                        
+                        }
                         break;
                     case 2: // Facing south
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow-i)][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityFrontCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow - i)][(int) robotCol] = 1;
                             count++;
                         }       
                         break;
                     case 3: // Facing west
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_FRONT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-i] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityFrontCheck; i++) {
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol - i] = 1;
                             count++;
                         }       
                         break;
@@ -275,32 +290,34 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
                 intList.add(3);
 
                 // Mark free spaces
+//                int proximityLeftCheck = (d[PROXIMITY_LEFT] + 6) / GRID_SPACE;
+                int proximityLeftCheck = (d[PROXIMITY_LEFT] + 6) / 18;
                 switch (direction) {
                     case 0: // Facing north
-                        int count=0;
-                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol-i] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityLeftCheck; i++) {
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol - i] = 1;
                             count++;
                         }       
                         break;
                     case 1: // Facing east
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow+i)][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityLeftCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow + i)][(int) robotCol] = 1;
                             count++;
                         }       
                         break;
                     case 2: // Facing south
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-(int)robotRow][(int)robotCol+i] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityLeftCheck; i++) {
+                            occupancyGrid[numRows - 1 - (int) robotRow][(int) robotCol + i] = 1;
                             count++;
                         }       
                         break;
                     case 3: // Facing west
-                        count=0;
-                        for (int i = 0; i < (d[PROXIMITY_LEFT] + 6) / GRID_SPACE; i++) {
-                            occupancyGrid[numRows-1-((int)robotRow-i)][(int)robotCol] = 1;
+                        count = 0;
+                        for (int i = 0; i < proximityLeftCheck; i++) {
+                            occupancyGrid[numRows - 1 - ((int) robotRow - i)][(int) robotCol] = 1;
                             count++;
                         }       
                         break;
@@ -399,6 +416,12 @@ public class MappingRobotRandomMoving5 extends VirtualRobot {
 
             simpleComm.sendMessage(arrayToString(occupancyGrid), 200);
         }
+
+        long endTime = System.currentTimeMillis();
+
+        long timeTaken = endTime - startTime;
+
+        recordExplorations(CSV_PATH, ROBOT_NAME, endTime, loopCount, timeTaken);
     }
 
     public void communicationInterrupt(String msg) {
